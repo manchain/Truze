@@ -1,6 +1,6 @@
-import React from 'react';
-import { Box, HStack, VStack, Text, Avatar, Badge, IconButton, Button, useColorMode } from '@chakra-ui/react';
-import { FiThumbsUp, FiMessageSquare, FiShare2 } from 'react-icons/fi';
+import React, { useState } from 'react';
+import { Box, HStack, VStack, Text, Avatar, Badge, IconButton, Button, useColorMode, Icon, Flex } from '@chakra-ui/react';
+import { FiThumbsUp, FiMessageSquare, FiShare2, FiLock, FiCheck, FiAlertTriangle, FiArrowUp, FiArrowDown } from 'react-icons/fi';
 
 interface PostProps {
   author: string;
@@ -28,22 +28,59 @@ const Post: React.FC<PostProps> = ({
   verificationCount
 }) => {
   const { colorMode } = useColorMode();
+  const [showVerification, setShowVerification] = useState(false);
+
+  const isDark = colorMode === 'dark';
 
   const getStatusBadge = () => {
     switch (status) {
       case 'Verified':
         return (
-          <Badge colorScheme="green" display="flex" alignItems="center" borderRadius="6px" gap={1}>
-            <Box as="span">✓</Box>
+          <Badge 
+            display="flex" 
+            alignItems="center" 
+            gap={1}
+            bg={isDark ? "green.500" : "green.500"}
+            color="white"
+            px={2}
+            py={0.5}
+            borderRadius="full"
+            fontSize="xs"
+          >
+            <Box as={FiCheck} />
             Verified ({verificationCount})
           </Badge>
         );
       case 'Pending':
-        return <Badge borderRadius="6px" colorScheme="yellow">Pending</Badge>;
+        return (
+          <Badge 
+            display="flex" 
+            alignItems="center" 
+            gap={1}
+            bg={isDark ? "yellow.500" : "yellow.500"}
+            color="white"
+            px={2}
+            py={0.5}
+            borderRadius="full"
+            fontSize="xs"
+          >
+            Pending
+          </Badge>
+        );
       case 'Disputed':
         return (
-          <Badge borderRadius="6px" colorScheme="red" display="flex" alignItems="center" gap={1}>
-            <Box as="span">⚠</Box>
+          <Badge 
+            display="flex" 
+            alignItems="center" 
+            gap={1}
+            bg={isDark ? "red.500" : "red.500"}
+            color="white"
+            px={2}
+            py={0.5}
+            borderRadius="full"
+            fontSize="xs"
+          >
+            <Box as={FiAlertTriangle} />
             Disputed
           </Badge>
         );
@@ -52,98 +89,167 @@ const Post: React.FC<PostProps> = ({
 
   return (
     <Box 
-      bg={colorMode === 'dark' ? 'gray.800' : 'white'} 
+      bg={isDark ? "gray.800" : "white"}
       p={4} 
-      borderRadius="lg" 
-      mb={4}
-      boxShadow="sm"
+      borderRadius="xl" 
+      mb={3}
+      width="full"
+      maxW="container.sm"
+      boxShadow={isDark ? "none" : "sm"}
       border="1px solid"
-      borderColor={colorMode === 'dark' ? 'gray.700' : 'gray.200'}
+      borderColor={isDark ? "gray.700" : "gray.200"}
     >
-      <HStack spacing={3} mb={3}>
+      <HStack spacing={3} mb={2}>
         <Avatar size="sm" name={author} src={avatar} />
         <VStack align="start" spacing={0} flex={1}>
-          <HStack>
-            <Text color={colorMode === 'dark' ? 'white' : 'gray.800'} fontWeight="bold">{author}</Text>
+          <HStack spacing={2}>
+            <Text color={isDark ? "white" : "gray.800"} fontWeight="semibold" fontSize="sm">{author}</Text>
             {getStatusBadge()}
           </HStack>
-          <Text fontSize="sm" color={colorMode === 'dark' ? 'gray.400' : 'gray.500'}>{timestamp}</Text>
+          <Text fontSize="xs" color={isDark ? "gray.400" : "gray.500"}>{timestamp}</Text>
         </VStack>
       </HStack>
 
       <VStack align="start" spacing={2} mb={3}>
-        <Text color={colorMode === 'dark' ? 'white' : 'gray.800'} fontSize="lg" fontWeight="bold">
+        <Text 
+          color={isDark ? "white" : "gray.800"}
+          fontSize="lg" 
+          fontWeight="semibold"
+          lineHeight="1.2"
+        >
           {title}
         </Text>
-        <Text color={colorMode === 'dark' ? 'gray.300' : 'gray.600'} fontSize="sm">
+        <Text 
+          color={isDark ? "gray.300" : "gray.600"}
+          fontSize="sm"
+          lineHeight="1.5"
+        >
           {content}
         </Text>
       </VStack>
 
-      <HStack spacing={2} mb={4} flexWrap="wrap">
+      <HStack spacing={2} mb={3} flexWrap="wrap">
         {tags.map((tag) => (
           <Badge 
             key={tag} 
-            colorScheme="blue" 
-            variant="subtle"
-            bg={colorMode === 'dark' ? 'blue.800' : 'blue.50'}
-            color={colorMode === 'dark' ? 'blue.100' : 'blue.800'}
+            px={3}
+            py={1}
+            borderRadius="full"
+            bg={isDark ? "gray.700" : "gray.100"}
+            color={isDark ? "gray.300" : "gray.600"}
+            fontSize="xs"
           >
             {tag}
           </Badge>
         ))}
       </HStack>
 
-      <HStack justify="space-between">
-        <HStack spacing={4}>
-          <HStack>
-            <IconButton
-              aria-label="Like"
-              icon={<FiThumbsUp />}
-              variant="ghost"
-              color={colorMode === 'dark' ? 'gray.400' : 'gray.500'}
-              size="sm"
-              _hover={{
-                bg: colorMode === 'dark' ? 'gray.700' : 'gray.100'
-              }}
-            />
-            <Text color={colorMode === 'dark' ? 'gray.400' : 'gray.500'}>{likes}</Text>
+      {showVerification && (
+        <Box mb={3}>
+          <HStack spacing={2} mb={2}>
+            <Icon as={FiLock} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
+            <Text color={isDark ? "gray.300" : "gray.600"} fontSize="sm">
+              Content Verification
+            </Text>
           </HStack>
-          <HStack>
-            <IconButton
-              aria-label="Comment"
-              icon={<FiMessageSquare />}
-              variant="ghost"
-              color={colorMode === 'dark' ? 'gray.400' : 'gray.500'}
-              size="sm"
-              _hover={{
-                bg: colorMode === 'dark' ? 'gray.700' : 'gray.100'
-              }}
-            />
-            <Text color={colorMode === 'dark' ? 'gray.400' : 'gray.500'}>{comments}</Text>
-          </HStack>
-          <IconButton
-            aria-label="Share"
-            icon={<FiShare2 />}
-            variant="ghost"
-            color={colorMode === 'dark' ? 'gray.400' : 'gray.500'}
-            size="sm"
-            _hover={{
-              bg: colorMode === 'dark' ? 'gray.700' : 'gray.100'
-            }}
-          />
+          <Box
+            bg={isDark ? "gray.900" : "gray.50"}
+            p={2}
+            borderRadius="md"
+            mb={2}
+            border="1px solid"
+            borderColor={isDark ? "gray.700" : "gray.200"}
+          >
+            <Text 
+              color={isDark ? "gray.400" : "gray.500"}
+              fontSize="xs" 
+              fontFamily="mono"
+            >
+              0x3a7f44hgf3h8q2i......
+            </Text>
+          </Box>
+          <Text color={isDark ? "gray.400" : "gray.500"} fontSize="xs">
+            This content has been cryptographically signed by the author and verified by {verificationCount} peers
+          </Text>
+        </Box>
+      )}
+
+      <HStack spacing={4} mb={3}>
+        <HStack spacing={1}>
+          <Icon as={FiThumbsUp} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
+          <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{likes}</Text>
+        </HStack>
+        <HStack spacing={1}>
+          <Icon as={FiMessageSquare} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
+          <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{comments}</Text>
         </HStack>
         <Button
-          size="sm"
-          colorScheme="teal"
           variant="ghost"
-          _hover={{
-            bg: colorMode === 'dark' ? 'teal.800' : 'teal.50'
-          }}
+          size="sm"
+          color={isDark ? "gray.400" : "gray.500"}
+          height="auto"
+          minW="auto"
+          p={0}
+          _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
+          onClick={() => {}}
         >
-          Verify
+          Share
         </Button>
+        {!showVerification ? (
+          <Button
+            variant="ghost"
+            size="sm"
+            color={isDark ? "gray.400" : "gray.500"}
+            height="auto"
+            minW="auto"
+            p={0}
+            _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
+            onClick={() => setShowVerification(true)}
+          >
+            Verify
+          </Button>
+        ) : (
+          <Button
+            variant="ghost"
+            size="sm"
+            color={isDark ? "gray.400" : "gray.500"}
+            height="auto"
+            minW="auto"
+            p={0}
+            _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
+            onClick={() => setShowVerification(false)}
+          >
+            Hide
+          </Button>
+        )}
       </HStack>
+
+      {showVerification && (
+        <HStack spacing={2} width="full">
+          <Button
+            leftIcon={<Icon as={FiArrowUp} />}
+            bg={isDark ? "green.600" : "green.500"}
+            color="white"
+            flex={1}
+            size="sm"
+            _hover={{ bg: isDark ? "green.500" : "green.600" }}
+            borderRadius="md"
+          >
+            Up Vote
+          </Button>
+          <Button
+            leftIcon={<Icon as={FiArrowDown} />}
+            bg={isDark ? "red.600" : "red.500"}
+            color="white"
+            flex={1}
+            size="sm"
+            _hover={{ bg: isDark ? "red.500" : "red.600" }}
+            borderRadius="md"
+          >
+            Down Vote
+          </Button>
+        </HStack>
+      )}
     </Box>
   );
 };
