@@ -4,6 +4,7 @@ import {
 } from '@chakra-ui/react';
 import { FiArrowLeft, FiWifi, FiDatabase, FiClock, FiShield, FiTrendingUp, FiChevronRight } from 'react-icons/fi';
 import { useRouter } from 'next/router';
+import { BlurIn, SlideIn, FadeIn, ScaleIn } from '../components/magic-ui';
 
 const statsData = {
   network: {
@@ -34,94 +35,160 @@ const Stats = () => {
   return (
     <Box minH="100vh" bg={isDark ? '#151C28' : 'gray.50'} px={2} py={4}>
       <Box maxW="container.sm" mx="auto">
-        <HStack mb={6} align="center">
-          <Icon as={FiArrowLeft} color={isDark ? 'white' : 'gray.700'} fontSize="xl" cursor="pointer" onClick={() => router.back()} />
-          <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Back</Text>
-        </HStack>
+        <BlurIn duration={0.8} delay={0.2}>
+          <HStack mb={6} align="center">
+            <ScaleIn duration={0.5} delay={0.4}>
+              <Icon as={FiArrowLeft} color={isDark ? 'white' : 'gray.700'} fontSize="xl" cursor="pointer" onClick={() => router.back()} />
+            </ScaleIn>
+            <ScaleIn duration={0.5} delay={0.5}>
+              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Back</Text>
+            </ScaleIn>
+          </HStack>
+        </BlurIn>
         <VStack spacing={6}>
           {/* Network Status Card */}
-          <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
-            <Flex justify="space-between" align="center" mb={2}>
-              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Network Status</Text>
-              <HStack bg={isDark ? 'rgba(39, 60, 48, 0.5)' : 'green.50'} px={3} py={1} borderRadius="lg">
-                <Icon as={FiWifi} color="green.400" />
-                <Text color="green.400" fontWeight="bold" fontSize="md">Connected</Text>
-              </HStack>
-            </Flex>
-            <HStack spacing={4} mb={2} mt={4}>
-              <HStack spacing={2} flex={1}>
-                <Icon as={FiDatabase} color={isDark ? 'gray.400' : 'gray.500'} />
-                <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Connected Peers</Text>
-              </HStack>
-              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.network.peers}</Text>
-            </HStack>
-            <HStack spacing={4} mb={2}>
-              <HStack spacing={2} flex={1}>
-                <Icon as={FiClock} color={isDark ? 'gray.400' : 'gray.500'} />
-                <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Data Sync</Text>
-              </HStack>
-              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.network.sync}%</Text>
-            </HStack>
-            <Progress value={statsData.network.sync} size="sm" colorScheme="cyan" borderRadius="full" mb={2} />
-            <Flex justify="space-between" align="center">
-              <Text color={isDark ? 'gray.400' : 'gray.500'} fontSize="sm">Last update</Text>
-              <Text color={isDark ? 'white' : 'gray.800'} fontSize="sm">{statsData.network.lastUpdate}</Text>
-            </Flex>
-          </Box>
-
-          {/* Verification Status Card */}
-          <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
-            <Flex align="center" mb={4}>
-              <Icon as={FiShield} color={isDark ? 'cyan.400' : 'cyan.600'} mr={2} />
-              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Verification Status</Text>
-            </Flex>
-            <VStack align="stretch" spacing={2}>
-              <Box>
-                <Flex justify="space-between" align="center">
-                  <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Verified Content</Text>
-                  <Text color="green.400" fontWeight="bold">{statsData.verification.verified.count} ({statsData.verification.verified.percent}%)</Text>
-                </Flex>
-                <Progress value={statsData.verification.verified.percent} size="sm" colorScheme="green" borderRadius="full" mb={1} />
-              </Box>
-              <Box>
-                <Flex justify="space-between" align="center">
-                  <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Pending Verification</Text>
-                  <Text color="orange.300" fontWeight="bold">{statsData.verification.pending.count} ({statsData.verification.pending.percent}%)</Text>
-                </Flex>
-                <Progress value={statsData.verification.pending.percent} size="sm" colorScheme="orange" borderRadius="full" mb={1} />
-              </Box>
-              <Box>
-                <Flex justify="space-between" align="center">
-                  <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Disputed Content</Text>
-                  <Text color="red.400" fontWeight="bold">{statsData.verification.disputed.count} ({statsData.verification.disputed.percent}%)</Text>
-                </Flex>
-                <Progress value={statsData.verification.disputed.percent} size="sm" colorScheme="red" borderRadius="full" mb={1} />
-              </Box>
-            </VStack>
-          </Box>
-
-          {/* Trending Topics Card */}
-          <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
-            <Flex align="center" mb={4}>
-              <Icon as={FiTrendingUp} color={isDark ? 'cyan.400' : 'cyan.600'} mr={2} />
-              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Trending Topics</Text>
-            </Flex>
-            <VStack align="stretch" spacing={2} mb={2}>
-              {statsData.trending.map((topic, idx) => (
-                <Flex key={topic.label} justify="space-between" align="center">
-                  <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">{topic.label}</Text>
-                  <HStack>
-                    <Text color={topic.color} fontWeight="bold">{topic.value}</Text>
-                    <Box as="span" color={topic.color} fontSize="xl">•</Box>
+          <SlideIn direction="right" duration={0.6} delay={0.3}>
+            <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
+              <ScaleIn duration={0.5} delay={0.4}>
+                <Flex justify="space-between" align="center" mb={2}>
+                  <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Network Status</Text>
+                  <HStack bg={isDark ? 'rgba(39, 60, 48, 0.5)' : 'green.50'} px={3} py={1} borderRadius="lg">
+                    <Icon as={FiWifi} color="green.400" />
+                    <Text color="green.400" fontWeight="bold" fontSize="md">Connected</Text>
                   </HStack>
                 </Flex>
-              ))}
-            </VStack>
-            <Divider borderColor={isDark ? 'gray.700' : 'gray.200'} mb={2} />
-            <Button variant="link" color={isDark ? 'cyan.400' : 'cyan.600'} rightIcon={<FiChevronRight />} fontWeight="bold" fontSize="md" alignSelf="flex-end">
-              See All Topics
-            </Button>
-          </Box>
+              </ScaleIn>
+              <VStack spacing={4} align="stretch">
+                <FadeIn duration={0.5} delay={0.5}>
+                  <HStack spacing={4}>
+                    <HStack spacing={2} flex={1}>
+                      <Icon as={FiDatabase} color={isDark ? 'gray.400' : 'gray.500'} />
+                      <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Connected Peers</Text>
+                    </HStack>
+                    <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.network.peers}</Text>
+                  </HStack>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={0.6}>
+                  <HStack spacing={4}>
+                    <HStack spacing={2} flex={1}>
+                      <Icon as={FiClock} color={isDark ? 'gray.400' : 'gray.500'} />
+                      <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Data Sync</Text>
+                    </HStack>
+                    <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.network.sync}%</Text>
+                  </HStack>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={0.7}>
+                  <Progress value={statsData.network.sync} size="sm" colorScheme="cyan" borderRadius="full" />
+                </FadeIn>
+              </VStack>
+            </Box>
+          </SlideIn>
+
+          {/* Verification Status Card */}
+          <SlideIn direction="left" duration={0.6} delay={0.4}>
+            <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
+              <ScaleIn duration={0.5} delay={0.5}>
+                <Flex align="center" mb={4}>
+                  <Icon as={FiShield} color={isDark ? 'cyan.400' : 'cyan.600'} mr={2} />
+                  <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Verification Status</Text>
+                </Flex>
+              </ScaleIn>
+              <VStack align="stretch" spacing={2}>
+                <FadeIn duration={0.5} delay={0.6}>
+                  <Box>
+                    <Flex justify="space-between" align="center">
+                      <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Verified</Text>
+                      <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.verification.verified.count} ({statsData.verification.verified.percent}%)</Text>
+                    </Flex>
+                    <Progress value={statsData.verification.verified.percent} size="sm" colorScheme="blue" borderRadius="full" />
+                  </Box>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={0.7}>
+                  <Box>
+                    <Flex justify="space-between" align="center">
+                      <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Pending</Text>
+                      <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.verification.pending.count} ({statsData.verification.pending.percent}%)</Text>
+                    </Flex>
+                    <Progress value={statsData.verification.pending.percent} size="sm" colorScheme="blue" borderRadius="full" />
+                  </Box>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={0.8}>
+                  <Box>
+                    <Flex justify="space-between" align="center">
+                      <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Disputed</Text>
+                      <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.verification.disputed.count} ({statsData.verification.disputed.percent}%)</Text>
+                    </Flex>
+                    <Progress value={statsData.verification.disputed.percent} size="sm" colorScheme="blue" borderRadius="full" />
+                  </Box>
+                </FadeIn>
+              </VStack>
+            </Box>
+          </SlideIn>
+
+          {/* Trending Topics Card */}
+          <SlideIn direction="up" duration={0.6} delay={0.5}>
+            <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
+              <ScaleIn duration={0.5} delay={0.6}>
+                <Flex align="center" mb={4}>
+                  <Icon as={FiTrendingUp} color={isDark ? 'cyan.400' : 'cyan.600'} mr={2} />
+                  <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Trending Topics</Text>
+                </Flex>
+              </ScaleIn>
+              <VStack align="stretch" spacing={2}>
+                <FadeIn duration={0.5} delay={0.7}>
+                  <Flex justify="space-between" align="center">
+                    <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Climate Policy</Text>
+                    <HStack>
+                      <Text color="green.400" fontWeight="bold">1243</Text>
+                      <Box as="span" color="green.400" fontSize="xl">•</Box>
+                    </HStack>
+                  </Flex>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={0.8}>
+                  <Flex justify="space-between" align="center">
+                    <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Economic Summit</Text>
+                    <HStack>
+                      <Text color="green.400" fontWeight="bold">856</Text>
+                      <Box as="span" color="green.400" fontSize="xl">•</Box>
+                    </HStack>
+                  </Flex>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={0.9}>
+                  <Flex justify="space-between" align="center">
+                    <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Tech Regulations</Text>
+                    <HStack>
+                      <Text color="red.400" fontWeight="bold">742</Text>
+                      <Box as="span" color="red.400" fontSize="xl">•</Box>
+                    </HStack>
+                  </Flex>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={1.0}>
+                  <Flex justify="space-between" align="center">
+                    <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Healthcare Reform</Text>
+                    <HStack>
+                      <Text color="green.400" fontWeight="bold">521</Text>
+                      <Box as="span" color="green.400" fontSize="xl">•</Box>
+                    </HStack>
+                  </Flex>
+                </FadeIn>
+                <FadeIn duration={0.5} delay={1.1}>
+                  <Flex justify="space-between" align="center">
+                    <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Election Update</Text>
+                    <HStack>
+                      <Text color="red.400" fontWeight="bold">498</Text>
+                      <Box as="span" color="red.400" fontSize="xl">•</Box>
+                    </HStack>
+                  </Flex>
+                </FadeIn>
+              </VStack>
+              <Divider borderColor={isDark ? 'gray.700' : 'gray.200'} my={4} />
+              <ScaleIn duration={0.5} delay={1.2}>
+                <Button variant="link" color={isDark ? 'cyan.400' : 'cyan.600'} rightIcon={<FiChevronRight />} fontWeight="bold" fontSize="md" alignSelf="flex-end">
+                  See All Topics
+                </Button>
+              </ScaleIn>
+            </Box>
+          </SlideIn>
         </VStack>
       </Box>
     </Box>
