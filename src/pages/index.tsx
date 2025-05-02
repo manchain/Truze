@@ -1,6 +1,7 @@
 import { Box, Container, Flex, HStack, IconButton, Button, useColorMode } from '@chakra-ui/react';
 import { FiSun, FiMoon, FiSearch, FiMenu, FiHome, FiCheck, FiPieChart, FiUser } from 'react-icons/fi';
 import Post from '../components/Post';
+import { useRouter } from 'next/router';
 
 const samplePosts = [
   {
@@ -41,6 +42,7 @@ const samplePosts = [
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
+  const router = useRouter();
 
   return (
     <Box minH="100vh" bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
@@ -152,6 +154,7 @@ export default function Home() {
           color="white"
           _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
           borderRadius="full"
+          onClick={() => router.push('/upload')}
         />
         <IconButton
           aria-label="Analytics"

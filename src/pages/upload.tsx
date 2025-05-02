@@ -1,0 +1,110 @@
+import React from 'react';
+import { Box, Button, FormControl, FormLabel, Input, Textarea, Text, VStack, useColorMode, IconButton, HStack } from '@chakra-ui/react';
+import { FiArrowLeft, FiUpload } from 'react-icons/fi';
+import { useRouter } from 'next/router';
+
+const Upload = () => {
+  const { colorMode } = useColorMode();
+  const router = useRouter();
+  const isDark = colorMode === 'dark';
+
+  return (
+    <Box minH="100vh" bg={isDark ? '#151C28' : 'gray.50'} px={2} py={4}>
+      <Box maxW="container.sm" mx="auto">
+        <HStack mb={6} align="center">
+          <IconButton
+            icon={<FiArrowLeft />}
+            aria-label="Back"
+            variant="ghost"
+            color={isDark ? 'white' : 'gray.700'}
+            fontSize="xl"
+            onClick={() => router.back()}
+          />
+          <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Back</Text>
+        </HStack>
+        <Box
+          bg={isDark ? '#232B3B' : 'white'}
+          borderRadius="2xl"
+          p={6}
+          boxShadow={isDark ? 'none' : 'md'}
+        >
+          <VStack align="stretch" spacing={5}>
+            <Box>
+              <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="2xl" mb={1}>
+                Upload News Article
+              </Text>
+              <Text color={isDark ? 'gray.400' : 'gray.500'} fontSize="md">
+                Create and share verified news content with the network
+              </Text>
+            </Box>
+            <FormControl>
+              <FormLabel color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="md" mb={1}>Title</FormLabel>
+              <Input
+                placeholder="Enter article title"
+                bg={isDark ? 'transparent' : 'white'}
+                borderColor={isDark ? 'cyan.700' : 'cyan.400'}
+                color={isDark ? 'gray.200' : 'gray.800'}
+                _placeholder={{ color: isDark ? 'gray.500' : 'gray.400' }}
+                borderWidth={2}
+                borderRadius="lg"
+                mb={1}
+                _focus={{ borderColor: 'cyan.400' }}
+              />
+              <Text color={isDark ? 'gray.400' : 'gray.500'} fontSize="sm">
+                A clear and concise title for your article
+              </Text>
+            </FormControl>
+            <FormControl>
+              <FormLabel color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="md" mb={1}>Content</FormLabel>
+              <Textarea
+                placeholder="Write your article content here"
+                bg={isDark ? 'transparent' : 'white'}
+                borderColor={isDark ? 'cyan.700' : 'cyan.400'}
+                color={isDark ? 'gray.200' : 'gray.800'}
+                _placeholder={{ color: isDark ? 'gray.500' : 'gray.400' }}
+                borderWidth={2}
+                borderRadius="lg"
+                minH="120px"
+                mb={1}
+                _focus={{ borderColor: 'cyan.400' }}
+              />
+            </FormControl>
+            <FormControl>
+              <FormLabel color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="md" mb={1}>Tags</FormLabel>
+              <Input
+                placeholder="Enter tags separated by comma"
+                bg={isDark ? 'transparent' : 'white'}
+                borderColor={isDark ? 'cyan.700' : 'cyan.400'}
+                color={isDark ? 'gray.200' : 'gray.800'}
+                _placeholder={{ color: isDark ? 'gray.500' : 'gray.400' }}
+                borderWidth={2}
+                borderRadius="lg"
+                mb={1}
+                _focus={{ borderColor: 'cyan.400' }}
+              />
+              <Text color={isDark ? 'gray.400' : 'gray.500'} fontSize="sm">
+                Help others discover your article
+              </Text>
+            </FormControl>
+            <Button
+              leftIcon={<FiUpload />}
+              colorScheme="cyan"
+              bg={isDark ? '#0596B7' : 'cyan.500'}
+              color="white"
+              size="lg"
+              borderRadius="lg"
+              fontWeight="bold"
+              fontSize="lg"
+              mt={2}
+              _hover={{ bg: isDark ? '#038ca6' : 'cyan.600' }}
+            >
+              Publish Article
+            </Button>
+          </VStack>
+        </Box>
+      </Box>
+    </Box>
+  );
+};
+
+export default Upload; 
