@@ -163,6 +163,7 @@ export default function Home() {
           color="white"
           _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
           borderRadius="full"
+          onClick={() => router.push('/stats')}
         />
         <IconButton
           aria-label="Profile"
