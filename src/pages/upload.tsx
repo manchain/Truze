@@ -12,9 +12,9 @@ const Upload = () => {
   return (
     <Box minH="100vh" bg={isDark ? '#151C28' : 'gray.50'} px={2} py={4}>
       <Box maxW="container.sm" mx="auto">
-        <BlurIn duration={0.8} delay={0.2}>
+        <BlurIn>
           <HStack mb={6} align="center">
-            <ScaleIn duration={0.5} delay={0.4}>
+            <ScaleIn>
               <IconButton
                 icon={<FiArrowLeft />}
                 aria-label="Back"
@@ -24,12 +24,12 @@ const Upload = () => {
                 onClick={() => router.back()}
               />
             </ScaleIn>
-            <ScaleIn duration={0.5} delay={0.5}>
+            <ScaleIn>
               <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Back</Text>
             </ScaleIn>
           </HStack>
         </BlurIn>
-        <SlideIn direction="right" duration={0.6} delay={0.3}>
+        <SlideIn direction="right">
           <Box
             bg={isDark ? '#232B3B' : 'white'}
             borderRadius="2xl"
@@ -37,7 +37,7 @@ const Upload = () => {
             boxShadow={isDark ? 'none' : 'md'}
           >
             <VStack align="stretch" spacing={5}>
-              <ScaleIn duration={0.5} delay={0.4}>
+              <ScaleIn>
                 <Box>
                   <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="2xl" mb={1}>
                     Upload News Article
@@ -47,10 +47,10 @@ const Upload = () => {
                   </Text>
                 </Box>
               </ScaleIn>
-              <SlideIn direction="left" duration={0.5} delay={0.5}>
+              <SlideIn direction="left">
                 <FormControl>
                   <FormLabel color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="md" mb={1}>Title</FormLabel>
-                  <FadeIn duration={0.5} delay={0.6}>
+                  <FadeIn>
                     <Input
                       placeholder="Enter article title"
                       bg={isDark ? 'transparent' : 'white'}
@@ -63,17 +63,17 @@ const Upload = () => {
                       _focus={{ borderColor: 'cyan.400' }}
                     />
                   </FadeIn>
-                  <FadeIn duration={0.5} delay={0.7}>
+                  <FadeIn>
                     <Text color={isDark ? 'gray.400' : 'gray.500'} fontSize="sm">
                       A clear and concise title for your article
                     </Text>
                   </FadeIn>
                 </FormControl>
               </SlideIn>
-              <SlideIn direction="right" duration={0.5} delay={0.6}>
+              <SlideIn direction="right">
                 <FormControl>
                   <FormLabel color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="md" mb={1}>Content</FormLabel>
-                  <FadeIn duration={0.5} delay={0.7}>
+                  <FadeIn>
                     <Textarea
                       placeholder="Write your article content here"
                       bg={isDark ? 'transparent' : 'white'}
@@ -89,10 +89,10 @@ const Upload = () => {
                   </FadeIn>
                 </FormControl>
               </SlideIn>
-              <SlideIn direction="left" duration={0.5} delay={0.7}>
+              <SlideIn direction="left">
                 <FormControl>
                   <FormLabel color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="md" mb={1}>Tags</FormLabel>
-                  <FadeIn duration={0.5} delay={0.8}>
+                  <FadeIn>
                     <Input
                       placeholder="Enter tags separated by comma"
                       bg={isDark ? 'transparent' : 'white'}
@@ -105,14 +105,14 @@ const Upload = () => {
                       _focus={{ borderColor: 'cyan.400' }}
                     />
                   </FadeIn>
-                  <FadeIn duration={0.5} delay={0.9}>
+                  <FadeIn>
                     <Text color={isDark ? 'gray.400' : 'gray.500'} fontSize="sm">
                       Help others discover your article
                     </Text>
                   </FadeIn>
                 </FormControl>
               </SlideIn>
-              <ScaleIn duration={0.5} delay={1.0}>
+              <ScaleIn>
                 <Button
                   leftIcon={<FiUpload />}
                   colorScheme="cyan"

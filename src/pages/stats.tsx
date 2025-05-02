@@ -35,21 +35,21 @@ const Stats = () => {
   return (
     <Box minH="100vh" bg={isDark ? '#151C28' : 'gray.50'} px={2} py={4}>
       <Box maxW="container.sm" mx="auto">
-        <BlurIn duration={0.8} delay={0.2}>
+        <BlurIn>
           <HStack mb={6} align="center">
-            <ScaleIn duration={0.5} delay={0.4}>
+            <ScaleIn>
               <Icon as={FiArrowLeft} color={isDark ? 'white' : 'gray.700'} fontSize="xl" cursor="pointer" onClick={() => router.back()} />
             </ScaleIn>
-            <ScaleIn duration={0.5} delay={0.5}>
+            <ScaleIn>
               <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Back</Text>
             </ScaleIn>
           </HStack>
         </BlurIn>
         <VStack spacing={6}>
           {/* Network Status Card */}
-          <SlideIn direction="right" duration={0.6} delay={0.3}>
+          <SlideIn direction="right">
             <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
-              <ScaleIn duration={0.5} delay={0.4}>
+              <ScaleIn>
                 <Flex justify="space-between" align="center" mb={2}>
                   <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Network Status</Text>
                   <HStack bg={isDark ? 'rgba(39, 60, 48, 0.5)' : 'green.50'} px={3} py={1} borderRadius="lg">
@@ -59,7 +59,7 @@ const Stats = () => {
                 </Flex>
               </ScaleIn>
               <VStack spacing={4} align="stretch">
-                <FadeIn duration={0.5} delay={0.5}>
+                <FadeIn>
                   <HStack spacing={4}>
                     <HStack spacing={2} flex={1}>
                       <Icon as={FiDatabase} color={isDark ? 'gray.400' : 'gray.500'} />
@@ -68,7 +68,7 @@ const Stats = () => {
                     <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.network.peers}</Text>
                   </HStack>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={0.6}>
+                <FadeIn>
                   <HStack spacing={4}>
                     <HStack spacing={2} flex={1}>
                       <Icon as={FiClock} color={isDark ? 'gray.400' : 'gray.500'} />
@@ -77,7 +77,7 @@ const Stats = () => {
                     <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold">{statsData.network.sync}%</Text>
                   </HStack>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={0.7}>
+                <FadeIn>
                   <Progress value={statsData.network.sync} size="sm" colorScheme="cyan" borderRadius="full" />
                 </FadeIn>
               </VStack>
@@ -85,16 +85,16 @@ const Stats = () => {
           </SlideIn>
 
           {/* Verification Status Card */}
-          <SlideIn direction="left" duration={0.6} delay={0.4}>
+          <SlideIn direction="left">
             <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
-              <ScaleIn duration={0.5} delay={0.5}>
+              <ScaleIn>
                 <Flex align="center" mb={4}>
                   <Icon as={FiShield} color={isDark ? 'cyan.400' : 'cyan.600'} mr={2} />
                   <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Verification Status</Text>
                 </Flex>
               </ScaleIn>
               <VStack align="stretch" spacing={2}>
-                <FadeIn duration={0.5} delay={0.6}>
+                <FadeIn>
                   <Box>
                     <Flex justify="space-between" align="center">
                       <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Verified</Text>
@@ -103,7 +103,7 @@ const Stats = () => {
                     <Progress value={statsData.verification.verified.percent} size="sm" colorScheme="blue" borderRadius="full" />
                   </Box>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={0.7}>
+                <FadeIn>
                   <Box>
                     <Flex justify="space-between" align="center">
                       <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Pending</Text>
@@ -112,7 +112,7 @@ const Stats = () => {
                     <Progress value={statsData.verification.pending.percent} size="sm" colorScheme="blue" borderRadius="full" />
                   </Box>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={0.8}>
+                <FadeIn>
                   <Box>
                     <Flex justify="space-between" align="center">
                       <Text color={isDark ? 'gray.300' : 'gray.600'} fontSize="md">Disputed</Text>
@@ -126,16 +126,16 @@ const Stats = () => {
           </SlideIn>
 
           {/* Trending Topics Card */}
-          <SlideIn direction="up" duration={0.6} delay={0.5}>
+          <SlideIn direction="up">
             <Box bg={isDark ? '#232B3B' : 'white'} borderRadius="2xl" p={6} w="full">
-              <ScaleIn duration={0.5} delay={0.6}>
+              <ScaleIn>
                 <Flex align="center" mb={4}>
                   <Icon as={FiTrendingUp} color={isDark ? 'cyan.400' : 'cyan.600'} mr={2} />
                   <Text color={isDark ? 'white' : 'gray.800'} fontWeight="bold" fontSize="lg">Trending Topics</Text>
                 </Flex>
               </ScaleIn>
               <VStack align="stretch" spacing={2}>
-                <FadeIn duration={0.5} delay={0.7}>
+                <FadeIn>
                   <Flex justify="space-between" align="center">
                     <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Climate Policy</Text>
                     <HStack>
@@ -144,7 +144,7 @@ const Stats = () => {
                     </HStack>
                   </Flex>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={0.8}>
+                <FadeIn>
                   <Flex justify="space-between" align="center">
                     <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Economic Summit</Text>
                     <HStack>
@@ -153,7 +153,7 @@ const Stats = () => {
                     </HStack>
                   </Flex>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={0.9}>
+                <FadeIn>
                   <Flex justify="space-between" align="center">
                     <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Tech Regulations</Text>
                     <HStack>
@@ -162,7 +162,7 @@ const Stats = () => {
                     </HStack>
                   </Flex>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={1.0}>
+                <FadeIn>
                   <Flex justify="space-between" align="center">
                     <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Healthcare Reform</Text>
                     <HStack>
@@ -171,7 +171,7 @@ const Stats = () => {
                     </HStack>
                   </Flex>
                 </FadeIn>
-                <FadeIn duration={0.5} delay={1.1}>
+                <FadeIn>
                   <Flex justify="space-between" align="center">
                     <Text color={isDark ? 'gray.300' : 'gray.700'} fontSize="md">Election Update</Text>
                     <HStack>
@@ -182,7 +182,7 @@ const Stats = () => {
                 </FadeIn>
               </VStack>
               <Divider borderColor={isDark ? 'gray.700' : 'gray.200'} my={4} />
-              <ScaleIn duration={0.5} delay={1.2}>
+              <ScaleIn>
                 <Button variant="link" color={isDark ? 'cyan.400' : 'cyan.600'} rightIcon={<FiChevronRight />} fontWeight="bold" fontSize="md" alignSelf="flex-end">
                   See All Topics
                 </Button>

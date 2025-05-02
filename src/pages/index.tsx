@@ -48,7 +48,7 @@ export default function Home() {
   return (
     <Box minH="100vh" bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
       {/* Header */}
-      <BlurIn duration={0.8} delay={0.2}>
+      <BlurIn>
         <Flex
           as="header"
           position="fixed"
@@ -61,13 +61,13 @@ export default function Home() {
           zIndex={10}
           boxShadow="sm"
         >
-          <ScaleIn duration={0.5} delay={0.4}>
+          <ScaleIn>
             <Box color={colorMode === 'dark' ? 'white' : 'gray.800'} fontWeight="bold">
               logo.
             </Box>
           </ScaleIn>
           <HStack>
-            <ScaleIn duration={0.5} delay={0.5}>
+            <ScaleIn>
               <IconButton
                 aria-label="Toggle color mode"
                 icon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
@@ -76,7 +76,7 @@ export default function Home() {
                 onClick={toggleColorMode}
               />
             </ScaleIn>
-            <ScaleIn duration={0.5} delay={0.6}>
+            <ScaleIn>
               <IconButton
                 aria-label="Search"
                 icon={<FiSearch />}
@@ -84,7 +84,7 @@ export default function Home() {
                 color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
               />
             </ScaleIn>
-            <ScaleIn duration={0.5} delay={0.7}>
+            <ScaleIn>
               <IconButton
                 aria-label="Menu"
                 icon={<FiMenu />}
@@ -97,10 +97,10 @@ export default function Home() {
       </BlurIn>
 
       {/* Navigation Tabs */}
-      <SlideIn direction="down" duration={0.6} delay={0.3}>
+      <SlideIn direction="down">
         <Box pt="60px" px={4} pb={2} bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
           <HStack spacing={4}>
-            <ScaleIn duration={0.4} delay={0.4}>
+            <ScaleIn>
               <Button 
                 variant="ghost" 
                 color={colorMode === 'dark' ? 'white' : 'gray.800'} 
@@ -109,7 +109,7 @@ export default function Home() {
                 Feed
               </Button>
             </ScaleIn>
-            <ScaleIn duration={0.4} delay={0.5}>
+            <ScaleIn>
               <Button 
                 variant="ghost" 
                 color={colorMode === 'dark' ? 'white' : 'gray.800'} 
@@ -118,7 +118,7 @@ export default function Home() {
                 Verified
               </Button>
             </ScaleIn>
-            <ScaleIn duration={0.4} delay={0.6}>
+            <ScaleIn>
               <Button colorScheme="teal" size="sm" ml="auto">
                 Connect
               </Button>
@@ -130,14 +130,14 @@ export default function Home() {
       {/* Main Content */}
       <Container maxW="container.sm" pt={4} pb={20}>
         {samplePosts.map((post, index) => (
-          <FadeIn key={index} duration={0.5} delay={index * 0.15}>
+          <FadeIn key={index}>
             <Post {...post} />
           </FadeIn>
         ))}
       </Container>
 
       {/* Bottom Navigation */}
-      <SlideIn direction="up" duration={0.6} delay={0.3}>
+      <SlideIn direction="up">
         <Flex
           position="fixed"
           bottom={4}
@@ -153,7 +153,7 @@ export default function Home() {
           boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
           zIndex={10}
         >
-          <ScaleIn duration={0.4} delay={0.4}>
+          <ScaleIn>
             <IconButton
               aria-label="Home"
               icon={<Box as={FiHome} boxSize={6} />}
@@ -163,7 +163,7 @@ export default function Home() {
               borderRadius="full"
             />
           </ScaleIn>
-          <ScaleIn duration={0.4} delay={0.5}>
+          <ScaleIn>
             <IconButton
               aria-label="Verified"
               icon={<Box as={FiCheck} boxSize={6} />}
@@ -173,7 +173,7 @@ export default function Home() {
               borderRadius="full"
             />
           </ScaleIn>
-          <ScaleIn duration={0.4} delay={0.6}>
+          <ScaleIn>
             <IconButton
               aria-label="New Post"
               icon={<Box fontSize="32px" fontWeight="bold">+</Box>}
@@ -184,7 +184,7 @@ export default function Home() {
               onClick={() => router.push('/upload')}
             />
           </ScaleIn>
-          <ScaleIn duration={0.4} delay={0.7}>
+          <ScaleIn>
             <IconButton
               aria-label="Analytics"
               icon={<Box as={FiPieChart} boxSize={6} />}
@@ -195,7 +195,7 @@ export default function Home() {
               onClick={() => router.push('/stats')}
             />
           </ScaleIn>
-          <ScaleIn duration={0.4} delay={0.8}>
+          <ScaleIn>
             <IconButton
               aria-label="Profile"
               icon={<Box as={FiUser} boxSize={6} />}
