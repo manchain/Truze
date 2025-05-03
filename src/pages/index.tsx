@@ -65,7 +65,7 @@ export default function Home() {
         >
           <ScaleIn>
             <Box>
-              <Image src="/logo.png" alt="Logo" height="32px" />
+              <Image src="/logo.png" alt="Logo" height="50px" />
             </Box>
           </ScaleIn>
           <HStack>
@@ -101,7 +101,7 @@ export default function Home() {
 
       {/* Navigation Tabs */}
       <SlideIn direction="down">
-        <Box pt="56px" px={3} pb={1} bg={colorMode === 'dark' ? 'gray.800' : 'gray.900'}>
+        <Box pt="56px" px={3} pb={3} bg={colorMode === 'dark' ? 'gray.800' : 'gray.900'}>
           <Flex align="center" justify="space-between">
             <HStack spacing={0} bg={colorMode === 'dark' ? 'gray.900' : 'gray.100'} borderRadius="md" p={1} boxShadow="sm">
               <Button 
