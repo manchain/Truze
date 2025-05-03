@@ -1,8 +1,9 @@
-import { Box, Container, Flex, HStack, IconButton, Button, useColorMode } from '@chakra-ui/react';
+import { Box, Container, Flex, HStack, IconButton, Button, useColorMode, useDisclosure, Image } from '@chakra-ui/react';
 import { FiSun, FiMoon, FiSearch, FiMenu, FiHome, FiCheck, FiPieChart, FiUser } from 'react-icons/fi';
 import Post from '../components/Post';
 import { useRouter } from 'next/router';
 import { BlurIn, SlideIn, FadeIn, ScaleIn } from '../components/magic-ui';
+import NetworkStatusDrawer from '../components/NetworkStatusDrawer';
 
 const samplePosts = [
   {
@@ -44,6 +45,7 @@ const samplePosts = [
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Box minH="100vh" bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
@@ -54,16 +56,16 @@ export default function Home() {
           position="fixed"
           w="100%"
           bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-          px={4}
-          py={2}
+          px={3}
+          py={1}
           alignItems="center"
           justifyContent="space-between"
           zIndex={10}
           boxShadow="sm"
         >
           <ScaleIn>
-            <Box color={colorMode === 'dark' ? 'white' : 'gray.800'} fontWeight="bold">
-              logo.
+            <Box>
+              <Image src="/logo.png" alt="Logo" height="32px" />
             </Box>
           </ScaleIn>
           <HStack>
@@ -90,6 +92,7 @@ export default function Home() {
                 icon={<FiMenu />}
                 variant="ghost"
                 color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                onClick={onOpen}
               />
             </ScaleIn>
           </HStack>
@@ -98,37 +101,47 @@ export default function Home() {
 
       {/* Navigation Tabs */}
       <SlideIn direction="down">
-        <Box pt="60px" px={4} pb={2} bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
-          <HStack spacing={4}>
-            <ScaleIn>
+        <Box pt="56px" px={3} pb={1} bg={colorMode === 'dark' ? 'gray.800' : 'gray.900'}>
+          <Flex align="center" justify="space-between">
+            <HStack spacing={0} bg={colorMode === 'dark' ? 'gray.900' : 'gray.100'} borderRadius="md" p={1} boxShadow="sm">
               <Button 
-                variant="ghost" 
-                color={colorMode === 'dark' ? 'white' : 'gray.800'} 
+                variant="ghost"
+                color={colorMode === 'dark' ? 'white' : 'gray.800'}
+                bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+                _active={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
+                _hover={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
                 size="sm"
+                borderRadius="md"
+                fontWeight="normal"
+                px={4}
+                boxShadow="none"
               >
                 Feed
               </Button>
-            </ScaleIn>
-            <ScaleIn>
               <Button 
-                variant="ghost" 
-                color={colorMode === 'dark' ? 'white' : 'gray.800'} 
+                variant="ghost"
+                color={colorMode === 'dark' ? 'white' : 'gray.800'}
+                bg="transparent"
+                _active={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
+                _hover={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
                 size="sm"
+                borderRadius="md"
+                fontWeight="normal"
+                px={4}
+                boxShadow="none"
               >
                 Verified
               </Button>
-            </ScaleIn>
-            <ScaleIn>
-              <Button colorScheme="teal" size="sm" ml="auto">
-                Connect
-              </Button>
-            </ScaleIn>
-          </HStack>
+            </HStack>
+            <Button colorScheme="cyan" size="sm" borderRadius="xl" fontWeight="bold" ml={3} px={5} boxShadow="md">
+              Connect
+            </Button>
+          </Flex>
         </Box>
       </SlideIn>
 
       {/* Main Content */}
-      <Container maxW="container.sm" pt={4} pb={20}>
+      <Container maxW="container.sm" pt={2} pb={12}>
         {samplePosts.map((post, index) => (
           <FadeIn key={index}>
             <Post {...post} />
@@ -140,14 +153,14 @@ export default function Home() {
       <SlideIn direction="up">
         <Flex
           position="fixed"
-          bottom={4}
+          bottom={2}
           left="50%"
           transform="translateX(-50%)"
-          w="90%"
+          w="95%"
           maxW="container.sm"
           bg={colorMode === 'dark' ? 'teal.600' : 'teal.500'}
-          py={3}
-          px={6}
+          py={2}
+          px={4}
           justifyContent="space-between"
           borderRadius="full"
           boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
@@ -203,10 +216,14 @@ export default function Home() {
               color="white"
               _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
               borderRadius="full"
+              onClick={() => router.push('/profile')}
             />
           </ScaleIn>
         </Flex>
       </SlideIn>
+
+      {/* Render the NetworkStatusDrawer */}
+      <NetworkStatusDrawer isOpen={isOpen} onClose={onClose} />
     </Box>
   );
 } 

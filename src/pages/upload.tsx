@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, Button, FormControl, FormLabel, Input, Textarea, Text, VStack, useColorMode, IconButton, HStack } from '@chakra-ui/react';
-import { FiArrowLeft, FiUpload } from 'react-icons/fi';
+import { FiArrowLeft, FiUpload, FiUser } from 'react-icons/fi';
 import { useRouter } from 'next/router';
 import { BlurIn, SlideIn, ScaleIn, FadeIn } from '../components/magic-ui';
 
@@ -127,6 +127,17 @@ const Upload = () => {
                 >
                   Publish Article
                 </Button>
+              </ScaleIn>
+              <ScaleIn>
+                <IconButton
+                  aria-label="Profile"
+                  icon={<Box as={FiUser} boxSize={6} />}
+                  variant="ghost"
+                  color="white"
+                  _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
+                  borderRadius="full"
+                  onClick={() => router.push('/profile')}
+                />
               </ScaleIn>
             </VStack>
           </Box>
