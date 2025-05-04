@@ -5,7 +5,7 @@ import { useRouter } from 'next/router';
 import { BlurIn, SlideIn, FadeIn, ScaleIn } from '../components/magic-ui';
 import NetworkStatusDrawer from '../components/NetworkStatusDrawer';
 
-const samplePosts = [
+const verifiedPosts = [
   {
     author: "Andrew Tate",
     avatar: "/avatars/andrew.png",
@@ -19,30 +19,20 @@ const samplePosts = [
     verificationCount: 53
   },
   {
-    author: "Chris Hamburger",
-    avatar: "/avatars/chris.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "New Tech Regulation Framework Proposed by Coalition of Nations",
-    content: "A multinational coalition has proposed comprehensive legislation for regulating artificial intelligence and data privacy across borders",
-    tags: ["Climate", "International", "Policy"],
-    likes: 59,
-    comments: 7,
-    status: "Pending" as const
-  },
-  {
-    author: "Charli xcx",
-    avatar: "/avatars/charli.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "Healthcare Reform Bill faces challenges in Legislative Session",
-    content: "The Proposed healthcare reform bill is encountering significant opposition as it moves through committee revies before final vote",
-    tags: ["Climate", "International", "Policy"],
-    likes: 59,
-    comments: 7,
-    status: "Disputed" as const
+    author: "Elon Musk",
+    avatar: "/avatars/elon.png",
+    timestamp: "Apr 12, 2025, 10:30 AM",
+    title: "Tesla Achieves Breakthrough in Battery Technology",
+    content: "Tesla announces new battery technology that doubles energy density while reducing production costs by 30%",
+    tags: ["Technology", "Energy", "Innovation"],
+    likes: 89,
+    comments: 12,
+    status: "Verified" as const,
+    verificationCount: 78
   }
 ];
 
-export default function Home() {
+export default function Verified() {
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -107,23 +97,24 @@ export default function Home() {
               <Button 
                 variant="ghost"
                 color={colorMode === 'dark' ? 'white' : 'gray.800'}
-                bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-                _active={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
-                _hover={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
+                bg="transparent"
+                _active={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
+                _hover={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
                 size="sm"
                 borderRadius="md"
                 fontWeight="normal"
                 px={4}
                 boxShadow="none"
+                onClick={() => router.push('/')}
               >
                 Feed
               </Button>
               <Button 
                 variant="ghost"
                 color={colorMode === 'dark' ? 'white' : 'gray.800'}
-                bg="transparent"
-                _active={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
-                _hover={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
+                bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+                _active={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
+                _hover={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
                 size="sm"
                 borderRadius="md"
                 fontWeight="normal"
@@ -142,7 +133,7 @@ export default function Home() {
 
       {/* Main Content */}
       <Container maxW="container.sm" pt={2} pb={12}>
-        {samplePosts.map((post, index) => (
+        {verifiedPosts.map((post, index) => (
           <FadeIn key={index}>
             <Post {...post} />
           </FadeIn>
@@ -174,6 +165,7 @@ export default function Home() {
               color="white"
               _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
               borderRadius="full"
+              onClick={() => router.push('/')}
             />
           </ScaleIn>
           <ScaleIn>
@@ -184,7 +176,6 @@ export default function Home() {
               color="white"
               _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
               borderRadius="full"
-              onClick={() => router.push('/verified')}
             />
           </ScaleIn>
           <ScaleIn>
