@@ -4,6 +4,9 @@ import Post from '../components/Post';
 import { useRouter } from 'next/router';
 import { BlurIn, SlideIn, FadeIn, ScaleIn } from '../components/magic-ui';
 import NetworkStatusDrawer from '../components/NetworkStatusDrawer';
+import { useEffect } from 'react';
+import { useAuthContext } from './_app';
+import { usePrivy } from '@privy-io/react-auth';
 
 const samplePosts = [
   {
@@ -46,6 +49,28 @@ export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, loading, logout } = useAuthContext();
+  const { ready, authenticated, logout: privyLogout } = usePrivy();
+
+  // Redirect to verification page if user is not verified
+  useEffect(() => {
+    if (!loading && (!user || !user.isVerified)) {
+      router.push('/verify');
+    }
+  }, [user, loading, router]);
+
+  // Render loading state or redirect if not authenticated
+  if (loading || !user || !user.isVerified) {
+    return null; // Or a loading spinner
+  }
+
+  const handleLogout = async () => {
+    if (authenticated && ready) {
+      await privyLogout();
+    }
+    logout();
+    router.push('/verify');
+  };
 
   return (
     <Box minH="100vh" bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
@@ -133,8 +158,17 @@ export default function Home() {
                 Verified
               </Button>
             </HStack>
-            <Button colorScheme="cyan" size="sm" borderRadius="xl" fontWeight="bold" ml={3} px={5} boxShadow="md">
-              Connect
+            <Button 
+              colorScheme="cyan" 
+              size="sm" 
+              borderRadius="xl" 
+              fontWeight="bold" 
+              ml={3} 
+              px={5} 
+              boxShadow="md"
+              onClick={handleLogout}
+            >
+              Disconnect
             </Button>
           </Flex>
         </Box>

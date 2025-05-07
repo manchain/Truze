@@ -1,1 +1,610 @@
-{}
+{
+  "../../node_modules/@privy-io/react-auth/dist/esm/privy-provider-IxOtd5-t.mjs -> @reown/appkit": {
+    "id": 54741,
+    "files": [
+      "static/chunks/4741.de5cfcf77195d3c2.js"
+    ]
+  },
+  "../../node_modules/@privy-io/react-auth/dist/esm/privy-provider-IxOtd5-t.mjs -> @simplewebauthn/browser": {
+    "id": 56603,
+    "files": [
+      "static/chunks/6603.e0ad29d5084a4919.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/add.js": {
+    "id": 44142,
+    "files": [
+      "static/chunks/4142.9c064fb3e2b5cdf5.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/all-wallets.js": {
+    "id": 53135,
+    "files": [
+      "static/chunks/3135.6d9f35d59de5e920.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/app-store.js": {
+    "id": 19182,
+    "files": [
+      "static/chunks/9182.787eeb32c7e36256.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/apple.js": {
+    "id": 37545,
+    "files": [
+      "static/chunks/7545.9ef6efde8251facf.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/arrow-bottom-circle.js": {
+    "id": 66270,
+    "files": [
+      "static/chunks/6270.d97790aa0b68b3e1.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/arrow-bottom.js": {
+    "id": 62836,
+    "files": [
+      "static/chunks/2836.68f6bc99e7dd39a0.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/arrow-left.js": {
+    "id": 29401,
+    "files": [
+      "static/chunks/9401.ed15670382bac3ee.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/arrow-right.js": {
+    "id": 7323,
+    "files": [
+      "static/chunks/7323.1480ce7cd450e537.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/arrow-top.js": {
+    "id": 78206,
+    "files": [
+      "static/chunks/8206.431f7c69c1f471d8.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/bank.js": {
+    "id": 48345,
+    "files": [
+      "static/chunks/8345.6a70172952e221a7.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/browser.js": {
+    "id": 55108,
+    "files": [
+      "static/chunks/5108.d0513ba5512821dd.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/card.js": {
+    "id": 59033,
+    "files": [
+      "static/chunks/9033.ffa3249c1586910e.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/checkmark-bold.js": {
+    "id": 8941,
+    "files": [
+      "static/chunks/8941.94bbee344fda88eb.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/checkmark.js": {
+    "id": 43987,
+    "files": [
+      "static/chunks/3987.0079e91cb03aca84.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/chevron-bottom.js": {
+    "id": 59385,
+    "files": [
+      "static/chunks/9385.caff230640cd2619.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/chevron-left.js": {
+    "id": 83021,
+    "files": [
+      "static/chunks/3021.1be95f7905d86ee5.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/chevron-right.js": {
+    "id": 25757,
+    "files": [
+      "static/chunks/5757.c6d8b6d200b3a7f2.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/chevron-top.js": {
+    "id": 93952,
+    "files": [
+      "static/chunks/3952.8c8f67f8ff926b10.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/chrome-store.js": {
+    "id": 52717,
+    "files": [
+      "static/chunks/2717.29b7071990c83373.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/clock.js": {
+    "id": 19218,
+    "files": [
+      "static/chunks/9218.ae20e11439d29935.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/close.js": {
+    "id": 601,
+    "files": [
+      "static/chunks/601.3e72e4e9c5509c8e.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/coinPlaceholder.js": {
+    "id": 38650,
+    "files": [
+      "static/chunks/8650.eba1e8660840809d.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/compass.js": {
+    "id": 34597,
+    "files": [
+      "static/chunks/4597.11be010ed6be5972.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/copy.js": {
+    "id": 12752,
+    "files": [
+      "static/chunks/2752.40af700112b2c672.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/cursor-transparent.js": {
+    "id": 71144,
+    "files": [
+      "static/chunks/1144.cd42caefd28bca2c.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/cursor.js": {
+    "id": 40636,
+    "files": [
+      "static/chunks/636.ed6e804054cf1cec.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/desktop.js": {
+    "id": 15096,
+    "files": [
+      "static/chunks/5096.cca0e5b42df56f9b.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/disconnect.js": {
+    "id": 48367,
+    "files": [
+      "static/chunks/8367.fcff5254a4c41ef7.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/discord.js": {
+    "id": 32389,
+    "files": [
+      "static/chunks/2389.1292689cdea16f62.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/etherscan.js": {
+    "id": 20394,
+    "files": [
+      "static/chunks/394.87c1fa64199e15ee.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/exclamation-triangle.js": {
+    "id": 12510,
+    "files": [
+      "static/chunks/2510.2e98a65230306391.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/extension.js": {
+    "id": 13178,
+    "files": [
+      "static/chunks/3178.d09cb9ba2373f9a6.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/external-link.js": {
+    "id": 7312,
+    "files": [
+      "static/chunks/7312.78c62cd3f8f08a7b.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/facebook.js": {
+    "id": 79482,
+    "files": [
+      "static/chunks/9482.a1c2729dc0856dea.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/farcaster.js": {
+    "id": 70461,
+    "files": [
+      "static/chunks/461.0e0e393406391b82.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/filters.js": {
+    "id": 87758,
+    "files": [
+      "static/chunks/7758.f9b62dcf39c97c9e.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/github.js": {
+    "id": 25361,
+    "files": [
+      "static/chunks/5361.c91722281b276bd9.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/google.js": {
+    "id": 80048,
+    "files": [
+      "static/chunks/48.f17c22080c5eed0a.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/help-circle.js": {
+    "id": 40635,
+    "files": [
+      "static/chunks/635.8faa422e17dda9c8.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/id.js": {
+    "id": 85313,
+    "files": [
+      "static/chunks/5313.21516ee3399c9c3f.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/image.js": {
+    "id": 6019,
+    "files": [
+      "static/chunks/6019.cd72c075b4c30c53.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/info-circle.js": {
+    "id": 5078,
+    "files": [
+      "static/chunks/7151.048316689df98638.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/info.js": {
+    "id": 53202,
+    "files": [
+      "static/chunks/3202.48ad8bf09eb35fad.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/lightbulb.js": {
+    "id": 51603,
+    "files": [
+      "static/chunks/1603.ec34b226f5a12d6d.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/mail.js": {
+    "id": 50495,
+    "files": [
+      "static/chunks/495.d1ae85acf045e463.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/mobile.js": {
+    "id": 78092,
+    "files": [
+      "static/chunks/8092.b1448712e62b28a1.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/more.js": {
+    "id": 86095,
+    "files": [
+      "static/chunks/6095.bd0b4924d4157d03.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/network-placeholder.js": {
+    "id": 40479,
+    "files": [
+      "static/chunks/479.8267b363bf5a90e4.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/nftPlaceholder.js": {
+    "id": 49833,
+    "files": [
+      "static/chunks/9833.881470451662df40.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/off.js": {
+    "id": 20322,
+    "files": [
+      "static/chunks/322.97467b219b844a96.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/play-store.js": {
+    "id": 9603,
+    "files": [
+      "static/chunks/9603.706998721d6968f7.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/plus.js": {
+    "id": 39735,
+    "files": [
+      "static/chunks/9735.6f51d56a52c73776.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/qr-code.js": {
+    "id": 9236,
+    "files": [
+      "static/chunks/9236.f141a1f0139e4521.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/recycle-horizontal.js": {
+    "id": 72961,
+    "files": [
+      "static/chunks/2961.420f71f7dad1e5ec.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/refresh.js": {
+    "id": 22150,
+    "files": [
+      "static/chunks/2150.373423dec905e1d3.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/reown-logo.js": {
+    "id": 20502,
+    "files": [
+      "static/chunks/502.365a25a5b5356e4c.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/search.js": {
+    "id": 46360,
+    "files": [
+      "static/chunks/2541.b03b911e97d1822a.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/send.js": {
+    "id": 71540,
+    "files": [
+      "static/chunks/1540.f414128119d4531e.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/swapHorizontal.js": {
+    "id": 24749,
+    "files": [
+      "static/chunks/4749.b4f101906f0c41bd.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/swapHorizontalBold.js": {
+    "id": 70942,
+    "files": [
+      "static/chunks/942.c2e5f99b7b4c8e1d.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/swapHorizontalMedium.js": {
+    "id": 70577,
+    "files": [
+      "static/chunks/577.47a50bdeb7dba5bb.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/swapHorizontalRoundedBold.js": {
+    "id": 22731,
+    "files": [
+      "static/chunks/2731.a67302783982c6d0.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/swapVertical.js": {
+    "id": 65149,
+    "files": [
+      "static/chunks/5149.5b7a56089b828271.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/telegram.js": {
+    "id": 42778,
+    "files": [
+      "static/chunks/2778.143b638f747c68b7.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/three-dots.js": {
+    "id": 57775,
+    "files": [
+      "static/chunks/7775.1de2a1bb6c9ad23f.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/twitch.js": {
+    "id": 15653,
+    "files": [
+      "static/chunks/5653.fbe4aa9ada221511.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/twitterIcon.js": {
+    "id": 60018,
+    "files": [
+      "static/chunks/18.877e4a920edadfe8.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/verify-filled.js": {
+    "id": 4002,
+    "files": [
+      "static/chunks/4002.fc74a8fa35678b5c.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/verify.js": {
+    "id": 27916,
+    "files": [
+      "static/chunks/7916.df85c83222130b58.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/wallet-placeholder.js": {
+    "id": 65880,
+    "files": [
+      "static/chunks/5880.f2daf28298d2246a.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/wallet.js": {
+    "id": 77645,
+    "files": [
+      "static/chunks/7645.5ff6f1ef884eb5bb.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/walletconnect.js": {
+    "id": 58284,
+    "files": [
+      "static/chunks/8284.c0cc4aec7d0d387b.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/warning-circle.js": {
+    "id": 25964,
+    "files": [
+      "static/chunks/5964.69016f4439d3b068.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit-ui/dist/esm/src/components/wui-icon/index.js -> ../../assets/svg/x.js": {
+    "id": 92351,
+    "files": [
+      "static/chunks/2351.48419df8c71b788c.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-pay": {
+    "id": 92565,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/2565.d38e4017318e5b3f.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui": {
+    "id": 49657,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/1219.96a7aecd6cae1f29.js",
+      "static/chunks/2592.f2f4b54a5947ecd2.js",
+      "static/chunks/8963.d31efa884db54dda.js",
+      "static/chunks/1965.3ca27761b3ae0ada.js",
+      "static/chunks/3583.d85f94f1912d50eb.js",
+      "static/chunks/9566.e8e83d3e43397cb6.js",
+      "static/chunks/9657.984b10401d25ba60.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/email": {
+    "id": 10519,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/1219.96a7aecd6cae1f29.js",
+      "static/chunks/519.4c00049b61055f8b.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/embedded-wallet": {
+    "id": 68131,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/1219.96a7aecd6cae1f29.js",
+      "static/chunks/8131.dff44f5251e5bcab.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/onramp": {
+    "id": 89414,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/1219.96a7aecd6cae1f29.js",
+      "static/chunks/8963.d31efa884db54dda.js",
+      "static/chunks/1965.3ca27761b3ae0ada.js",
+      "static/chunks/9414.11bfa2020a613dd2.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/receive": {
+    "id": 61828,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/2592.f2f4b54a5947ecd2.js",
+      "static/chunks/1828.996a83e1f19f1743.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/send": {
+    "id": 86641,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/1219.96a7aecd6cae1f29.js",
+      "static/chunks/9773.7430a9cc8cd153b0.js",
+      "static/chunks/6641.6ef90e7803ffe671.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/socials": {
+    "id": 20615,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/2592.f2f4b54a5947ecd2.js",
+      "static/chunks/8963.d31efa884db54dda.js",
+      "static/chunks/8121.dd66c35fa4b1fb77.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/swaps": {
+    "id": 58430,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/1219.96a7aecd6cae1f29.js",
+      "static/chunks/9773.7430a9cc8cd153b0.js",
+      "static/chunks/8430.71d76fbddf751dd5.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/transactions": {
+    "id": 92200,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/3583.d85f94f1912d50eb.js",
+      "static/chunks/3333.e931b865048fcd53.js"
+    ]
+  },
+  "../../node_modules/@reown/appkit/dist/esm/src/client/appkit.js -> @reown/appkit-scaffold-ui/w3m-modal": {
+    "id": 64137,
+    "files": [
+      "static/chunks/8559.48e1e84bdba0a5f0.js",
+      "static/chunks/9566.e8e83d3e43397cb6.js",
+      "static/chunks/8898.1cc51f07134116d4.js"
+    ]
+  },
+  "../../node_modules/@walletconnect/ethereum-provider/dist/index.es.js -> @walletconnect/modal": {
+    "id": 59343,
+    "files": [
+      "static/chunks/9343.1ccc11c086e30389.js"
+    ]
+  },
+  "../../node_modules/@walletconnect/modal/dist/index.js -> @walletconnect/modal-ui": {
+    "id": 46628,
+    "files": [
+      "static/chunks/2592.f2f4b54a5947ecd2.js",
+      "static/chunks/6628.b3c6ab92d327d137.js"
+    ]
+  },
+  "../../node_modules/@walletconnect/universal-provider/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/@walletconnect/universal-provider/node_modules/viem/_esm/utils/rpc/webSocket.js -> isows": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/@walletconnect/universal-provider/node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1": {
+    "id": 1610,
+    "files": [
+      "static/chunks/1610.50da94b2ebc245b8.js"
+    ]
+  },
+  "../../node_modules/@walletconnect/utils/node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/@walletconnect/utils/node_modules/viem/_esm/utils/rpc/webSocket.js -> isows": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/@walletconnect/utils/node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1": {
+    "id": 6709,
+    "files": [
+      "static/chunks/6709.8fc26b92a72c0272.js"
+    ]
+  },
+  "../../node_modules/viem/_esm/actions/public/call.js -> ../../utils/ccip.js": {
+    "id": 21785,
+    "files": [
+      "static/chunks/1785.c7b83fe899163395.js"
+    ]
+  },
+  "../../node_modules/viem/_esm/utils/rpc/webSocket.js -> isows": {
+    "id": null,
+    "files": []
+  },
+  "../../node_modules/viem/_esm/utils/signature/recoverPublicKey.js -> @noble/curves/secp256k1": {
+    "id": 34849,
+    "files": []
+  }
+}

@@ -1,1 +1,11 @@
-{"/_app":"pages/_app.js","/_error":"pages/_error.js","/":"pages/index.html","/profile":"pages/profile.html","/stats":"pages/stats.html","/upload":"pages/upload.html","/verified":"pages/verified.html","/_document":"pages/_document.js","/404":"pages/404.html"}
+{
+  "/": "pages/index.js",
+  "/_error": "pages/_error.js",
+  "/verified": "pages/verified.js",
+  "/profile": "pages/profile.js",
+  "/upload": "pages/upload.js",
+  "/verify": "pages/verify.js",
+  "/stats": "pages/stats.js",
+  "/_document": "pages/_document.js",
+  "/_app": "pages/_app.js"
+}
