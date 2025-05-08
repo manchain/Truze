@@ -1,11 +1,7 @@
 {
-  "/": "pages/index.js",
+  "/_app": "pages/_app.js",
   "/_error": "pages/_error.js",
-  "/verified": "pages/verified.js",
-  "/profile": "pages/profile.js",
-  "/upload": "pages/upload.js",
-  "/verify": "pages/verify.js",
-  "/stats": "pages/stats.js",
   "/_document": "pages/_document.js",
-  "/_app": "pages/_app.js"
+  "/": "pages/index.js",
+  "/verify": "pages/verify.js"
 }

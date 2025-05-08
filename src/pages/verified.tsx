@@ -7,6 +7,7 @@ import NetworkStatusDrawer from '../components/NetworkStatusDrawer';
 
 const verifiedPosts = [
   {
+    id: 1,
     author: "Andrew Tate",
     avatar: "/avatars/andrew.png",
     timestamp: "Apr 13, 2025, 02:45 PM",
@@ -19,6 +20,7 @@ const verifiedPosts = [
     verificationCount: 53
   },
   {
+    id: 2,
     author: "Elon Musk",
     avatar: "/avatars/elon.png",
     timestamp: "Apr 12, 2025, 10:30 AM",

@@ -1,0 +1,1 @@
+export const VOTING_CONTRACT_ADDRESS = "0x996c959bA42746b8C45D1904089d1DEf52949b31"; // Base Sepolia address 

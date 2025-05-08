@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/router';
 import {
   Box,
@@ -40,6 +40,11 @@ import { ReclaimProtocolService } from '../lib/auth';
 import QRCode from 'react-qr-code';
 import { usePrivy } from '@privy-io/react-auth';
 
+interface VerificationProof {
+  identifier?: string;
+  claimData?: Record<string, unknown>;
+}
+
 const VerifyPage = () => {
   const { colorMode } = useColorMode();
   const router = useRouter();
@@ -60,39 +65,14 @@ const VerifyPage = () => {
     authenticated, 
     user: privyUser, 
     login: privyLogin,
-    logout: privyLogout 
   } = usePrivy();
 
   // If user is already verified, redirect to home
   useEffect(() => {
-    if (user && user.isVerified) {
-      router.push('/');
+    if (user?.isVerified) {
+      void router.push('/');
     }
   }, [user, router]);
-
-  // Set wallet connection status when component mounts or user changes
-  useEffect(() => {
-    if (user) {
-      console.log("User detected in auth context:", user);
-      setIsWalletConnected(true);
-      setCurrentStep(2);
-    }
-  }, [user]);
-  
-  // Update UI based on Privy authentication state
-  useEffect(() => {
-    console.log("Privy state:", { ready, authenticated, privyUser });
-    
-    if (ready) {
-      // If Privy is still connecting (showing UI), show loading state
-      if (!authenticated && privyUser === undefined) {
-        setIsVerifying(true);
-      } else if (!authenticated && privyUser === null) {
-        // If Privy attempted connection but failed
-        setIsVerifying(false);
-      }
-    }
-  }, [ready, authenticated, privyUser]);
 
   // Clean up polling interval on unmount
   useEffect(() => {
@@ -102,110 +82,16 @@ const VerifyPage = () => {
       }
     };
   }, [pollingInterval]);
-  
-  // Sync Privy authentication state
-  useEffect(() => {
-    if (ready && authenticated && privyUser) {
-      console.log("Privy user authenticated:", privyUser);
-      
-      // Get wallet address from user's linked wallets
-      let walletAddress = null;
-      
-      // Check if user has linked wallets
-      if (privyUser.linkedAccounts) {
-        // Find the first wallet account
-        const walletAccount = privyUser.linkedAccounts.find(account => 
-          account.type === 'wallet'
-        );
-        
-        if (walletAccount && 'address' in walletAccount) {
-          walletAddress = walletAccount.address;
-          console.log("Got wallet address from linked accounts:", walletAddress);
-        }
-      }
-      
-      // Fallback to wallet property if available
-      if (!walletAddress && privyUser.wallet?.address) {
-        walletAddress = privyUser.wallet.address;
-        console.log("Got wallet address from wallet property:", walletAddress);
-      }
-      
-      if (walletAddress) {
-        console.log("Wallet connected:", walletAddress);
-        // Login with the wallet address from Privy
-        login(walletAddress);
-        setIsWalletConnected(true);
-        setCurrentStep(2);
-        
-        toast({
-          title: "Wallet connected",
-          description: `Connected with address ${walletAddress.substring(0, 6)}...${walletAddress.substring(walletAddress.length - 4)}`,
-          status: "success",
-          duration: 3000,
-          isClosable: true,
-        });
-      }
-    }
-  }, [privyUser, authenticated, ready, login, toast]);
-
-  // Connect wallet function using Privy
-  const connectWallet = async () => {
-    setIsVerifying(true);
-    
-    try {
-      if (!ready) {
-        console.log("Privy is not ready yet, waiting...");
-        
-        // Show waiting toast
-        toast({
-          title: "Wallet provider initializing",
-          description: "Please try again in a moment",
-          status: "info",
-          duration: 3000,
-          isClosable: true,
-        });
-        
-        // Set a timeout to reset the loading state
-        setTimeout(() => {
-          setIsVerifying(false);
-        }, 1500);
-        
-        return;
-      }
-      
-      console.log("Initiating Privy login");
-      // Use Privy to connect wallet
-      await privyLogin();
-      
-      toast({
-        title: "Connecting wallet...",
-        description: "Please follow the prompts in the Privy modal",
-        status: "info",
-        duration: 5000,
-        isClosable: true,
-      });
-    } catch (error: any) {
-      console.error("Wallet connection error:", error);
-      toast({
-        title: "Failed to connect wallet",
-        description: error.message || "There was an error connecting your wallet",
-        status: "error",
-        duration: 3000,
-        isClosable: true,
-      });
-      setIsVerifying(false);
-    }
-  };
 
   // Handle verification failure
-  const handleVerificationFailure = (error: any) => {
+  const handleVerificationFailure = useCallback((error: Error) => {
     if (pollingInterval) {
       clearInterval(pollingInterval);
       setPollingInterval(null);
     }
     
     setIsVerifying(false);
-    onClose(); // Close the QR code modal
+    onClose();
     
     toast({
       title: "Verification failed",
@@ -214,10 +100,10 @@ const VerifyPage = () => {
       duration: 5000,
       isClosable: true,
     });
-  };
+  }, [pollingInterval, onClose, toast]);
 
   // Handle successful verification
-  const handleVerificationSuccess = (proofs: any[] = []) => {
+  const handleVerificationSuccess = useCallback((proofs: VerificationProof[] = []) => {
     if (pollingInterval) {
       clearInterval(pollingInterval);
       setPollingInterval(null);
@@ -228,18 +114,16 @@ const VerifyPage = () => {
     setIsVerified(true);
     setCurrentStep(3);
     setIsVerifying(false);
-    onClose(); // Close the QR code modal
+    onClose();
     
-    // Get the proof from the proofs array
-    if (proofs.length > 0) {
+    if (proofs.length > 0 && user?.address) {
       const proof = proofs[0];
       
-      // Format a meaningful proof object
       const formattedProof = {
         id: proof.identifier || `proof-${Date.now()}`,
         provider: "twitter",
         parameters: {
-          userId: user?.address || "unknown",
+          userId: user.address,
           timestamp: Date.now(),
           claimData: proof.claimData || {}
         },
@@ -247,16 +131,13 @@ const VerifyPage = () => {
       };
       
       console.log("Formatted proof:", formattedProof);
-      
-      // Pass the proof to the completeVerification function
       completeVerification(formattedProof);
-    } else {
-      // If no proofs were received, create a fallback proof
+    } else if (user?.address) {
       const fallbackProof = {
         id: `proof-${Date.now()}`,
         provider: "twitter",
         parameters: {
-          userId: user?.address || "unknown",
+          userId: user.address,
           timestamp: Date.now()
         },
         status: "verified"
@@ -274,15 +155,67 @@ const VerifyPage = () => {
       isClosable: true,
     });
     
-    // After successful verification, wait briefly then redirect
     setTimeout(() => {
-      router.push('/');
+      void router.push('/');
     }, 2000);
+  }, [pollingInterval, user, onClose, completeVerification, toast, router]);
+
+  // Connect wallet function using Privy
+  const connectWallet = async () => {
+    setIsVerifying(true);
+    
+    try {
+      if (!ready) {
+        console.log("Privy is not ready yet, waiting...");
+        
+        toast({
+          title: "Wallet provider initializing",
+          description: "Please try again in a moment",
+          status: "info",
+          duration: 3000,
+          isClosable: true,
+        });
+        
+        setTimeout(() => {
+          setIsVerifying(false);
+        }, 1500);
+        
+        return;
+      }
+      
+      console.log("Initiating Privy login");
+      await privyLogin();
+      
+      if (privyUser?.wallet?.address) {
+        login(privyUser.wallet.address);
+        setIsWalletConnected(true);
+        setCurrentStep(2);
+        
+        toast({
+          title: "Wallet connected",
+          description: `Connected with address ${privyUser.wallet.address.substring(0, 6)}...${privyUser.wallet.address.substring(privyUser.wallet.address.length - 4)}`,
+          status: "success",
+          duration: 3000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Wallet connection error:", error);
+      toast({
+        title: "Failed to connect wallet",
+        description: error instanceof Error ? error.message : "There was an error connecting your wallet",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsVerifying(false);
+    }
   };
 
   // Start Reclaim Protocol verification
   const startReclaimVerification = async () => {
-    if (!user) {
+    if (!user?.address) {
       toast({
         title: "Error",
         description: "Please connect your wallet first",
@@ -297,7 +230,6 @@ const VerifyPage = () => {
     
     try {
       console.log("Starting Reclaim verification for address:", user.address);
-      // Generate verification request using Reclaim Protocol
       const verificationRequest = await ReclaimProtocolService.generateVerificationRequest(
         user.address,
         handleVerificationSuccess,
@@ -308,7 +240,6 @@ const VerifyPage = () => {
       setQrCodeUrl(verificationRequest.requestUrl);
       setSessionId(verificationRequest.sessionId);
       
-      // Open QR code modal
       onOpen();
       
       toast({
@@ -319,11 +250,11 @@ const VerifyPage = () => {
         isClosable: true,
       });
       
-    } catch (error: any) {
+    } catch (error) {
       console.error("Verification request error:", error);
       toast({
         title: "Verification request failed",
-        description: error.message || "Failed to generate verification request",
+        description: error instanceof Error ? error.message : "Failed to generate verification request",
         status: "error",
         duration: 3000,
         isClosable: true,
@@ -420,7 +351,7 @@ const VerifyPage = () => {
                 size="lg"
                 w="full"
                 onClick={connectWallet}
-                isLoading={isVerifying || (ready && !authenticated)}
+                isLoading={isVerifying}
                 loadingText="Connecting..."
               >
                 Connect Wallet

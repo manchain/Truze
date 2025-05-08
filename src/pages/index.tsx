@@ -10,6 +10,7 @@ import { usePrivy } from '@privy-io/react-auth';
 
 const samplePosts = [
   {
+    id: 1,
     author: "Andrew Tate",
     avatar: "/avatars/andrew.png",
     timestamp: "Apr 13, 2025, 02:45 PM",
@@ -22,6 +23,7 @@ const samplePosts = [
     verificationCount: 53
   },
   {
+    id: 2,
     author: "Chris Hamburger",
     avatar: "/avatars/chris.png",
     timestamp: "Apr 13, 2025, 02:45 PM",
@@ -33,6 +35,7 @@ const samplePosts = [
     status: "Pending" as const
   },
   {
+    id: 3,
     author: "Charli xcx",
     avatar: "/avatars/charli.png",
     timestamp: "Apr 13, 2025, 02:45 PM",

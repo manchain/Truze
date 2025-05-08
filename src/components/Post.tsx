@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Box, HStack, VStack, Text, Avatar, Badge, IconButton, Button, useColorMode, Icon, Flex } from '@chakra-ui/react';
 import { FiThumbsUp, FiMessageSquare, FiShare2, FiLock, FiCheck, FiAlertTriangle, FiArrowUp, FiArrowDown } from 'react-icons/fi';
+import VoteButton from './VoteButton';
+import { VOTING_CONTRACT_ADDRESS } from '../config/contracts';
+import { ethers } from 'ethers';
 
 interface PostProps {
+  id: number;
   author: string;
   avatar: string;
   timestamp: string;
@@ -16,6 +20,7 @@ interface PostProps {
 }
 
 const Post: React.FC<PostProps> = ({
+  id,
   author,
   avatar,
   timestamp,
@@ -29,8 +34,33 @@ const Post: React.FC<PostProps> = ({
 }) => {
   const { colorMode } = useColorMode();
   const [showVerification, setShowVerification] = useState(false);
+  const [hasVoted, setHasVoted] = useState(false);
 
   const isDark = colorMode === 'dark';
+
+  useEffect(() => {
+    checkInitialVoteStatus();
+  }, [id]);
+
+  const checkInitialVoteStatus = async () => {
+    try {
+      if (!window.ethereum) return;
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(VOTING_CONTRACT_ADDRESS, ['function hasUserVoted(uint256,address) view returns (bool,bool)'], signer);
+      
+      const address = await signer.getAddress();
+      const [voted] = await contract.hasUserVoted(id, address);
+      setHasVoted(voted);
+    } catch (error) {
+      console.error('Error checking initial vote status:', error);
+    }
+  };
+
+  const onVoteSuccess = () => {
+    setHasVoted(true);
+  };
 
   const getStatusBadge = () => {
     switch (status) {
@@ -174,15 +204,30 @@ const Post: React.FC<PostProps> = ({
         </Box>
       )}
 
-      <HStack spacing={4} mb={3}>
-        <HStack spacing={1}>
-          <Icon as={FiThumbsUp} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
-          <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{likes}</Text>
+      <HStack spacing={4} mb={3} justify="space-between">
+        <HStack spacing={4}>
+          <HStack spacing={1}>
+            <Icon as={FiThumbsUp} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
+            <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{likes}</Text>
+          </HStack>
+          <HStack spacing={1}>
+            <Icon as={FiMessageSquare} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
+            <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{comments}</Text>
+          </HStack>
+          <Button
+            variant="ghost"
+            size="sm"
+            color={isDark ? "gray.400" : "gray.500"}
+            height="auto"
+            minW="auto"
+            p={0}
+            _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
+            onClick={() => {}}
+          >
+            Share
+          </Button>
         </HStack>
-        <HStack spacing={1}>
-          <Icon as={FiMessageSquare} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
-          <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{comments}</Text>
-        </HStack>
+        
         <Button
           variant="ghost"
           size="sm"
@@ -191,63 +236,28 @@ const Post: React.FC<PostProps> = ({
           minW="auto"
           p={0}
           _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
-          onClick={() => {}}
+          onClick={() => setShowVerification(!showVerification)}
         >
-          Share
+          {showVerification ? 'Hide' : 'Verify'}
         </Button>
-        {!showVerification ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            color={isDark ? "gray.400" : "gray.500"}
-            height="auto"
-            minW="auto"
-            p={0}
-            _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
-            onClick={() => setShowVerification(true)}
-          >
-            Verify
-          </Button>
-        ) : (
-          <Button
-            variant="ghost"
-            size="sm"
-            color={isDark ? "gray.400" : "gray.500"}
-            height="auto"
-            minW="auto"
-            p={0}
-            _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
-            onClick={() => setShowVerification(false)}
-          >
-            Hide
-          </Button>
-        )}
       </HStack>
 
       {showVerification && (
         <HStack spacing={2} width="full">
-          <Button
-            leftIcon={<Icon as={FiArrowUp} />}
-            bg={isDark ? "green.600" : "green.500"}
-            color="white"
-            flex={1}
-            size="sm"
-            _hover={{ bg: isDark ? "green.500" : "green.600" }}
-            borderRadius="md"
-          >
-            Up Vote
-          </Button>
-          <Button
-            leftIcon={<Icon as={FiArrowDown} />}
-            bg={isDark ? "red.600" : "red.500"}
-            color="white"
-            flex={1}
-            size="sm"
-            _hover={{ bg: isDark ? "red.500" : "red.600" }}
-            borderRadius="md"
-          >
-            Down Vote
-          </Button>
+          <VoteButton
+            articleId={id}
+            isUpvote={true}
+            contractAddress={VOTING_CONTRACT_ADDRESS}
+            hasVoted={hasVoted}
+            onVoteSuccess={onVoteSuccess}
+          />
+          <VoteButton
+            articleId={id}
+            isUpvote={false}
+            contractAddress={VOTING_CONTRACT_ADDRESS}
+            hasVoted={hasVoted}
+            onVoteSuccess={onVoteSuccess}
+          />
         </HStack>
       )}
     </Box>
