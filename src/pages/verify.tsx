@@ -31,7 +31,8 @@ import {
   useDisclosure,
   Center,
   Divider,
-  Spinner
+  Spinner,
+  useBreakpointValue
 } from '@chakra-ui/react';
 import { FiCheck, FiLock, FiUser } from 'react-icons/fi';
 import { BlurIn, FadeIn, ScaleIn } from '../components/magic-ui';
@@ -58,6 +59,14 @@ const VerifyPage = () => {
   const [sessionId, setSessionId] = useState('');
   const [pollingInterval, setPollingInterval] = useState<NodeJS.Timeout | null>(null);
   const { user, login, completeVerification } = useAuthContext();
+  
+  // Responsive values
+  const stepperOrientation = useBreakpointValue({ base: 'vertical', md: 'horizontal' });
+  const containerPadding = useBreakpointValue({ base: 4, md: 16 });
+  const headingSize = useBreakpointValue({ base: 'xl', md: '2xl' });
+  const contentMaxWidth = useBreakpointValue({ base: '100%', md: 'lg' });
+  const qrCodeSize = useBreakpointValue({ base: 200, md: 240 });
+  const stepperSize = useBreakpointValue({ base: 'sm', md: 'lg' });
   
   // Privy integration
   const { 
@@ -109,8 +118,6 @@ const VerifyPage = () => {
       setPollingInterval(null);
     }
     
-    console.log("Verification successful! Proofs:", proofs);
-    
     setIsVerified(true);
     setCurrentStep(3);
     setIsVerifying(false);
@@ -130,7 +137,6 @@ const VerifyPage = () => {
         status: "verified"
       };
       
-      console.log("Formatted proof:", formattedProof);
       completeVerification(formattedProof);
     } else if (user?.address) {
       const fallbackProof = {
@@ -143,7 +149,6 @@ const VerifyPage = () => {
         status: "verified"
       };
       
-      console.log("No proofs received, using fallback:", fallbackProof);
       completeVerification(fallbackProof);
     }
     
@@ -166,8 +171,6 @@ const VerifyPage = () => {
     
     try {
       if (!ready) {
-        console.log("Privy is not ready yet, waiting...");
-        
         toast({
           title: "Wallet provider initializing",
           description: "Please try again in a moment",
@@ -183,7 +186,6 @@ const VerifyPage = () => {
         return;
       }
       
-      console.log("Initiating Privy login");
       await privyLogin();
       
       if (privyUser?.wallet?.address) {
@@ -229,14 +231,12 @@ const VerifyPage = () => {
     setIsVerifying(true);
     
     try {
-      console.log("Starting Reclaim verification for address:", user.address);
       const verificationRequest = await ReclaimProtocolService.generateVerificationRequest(
         user.address,
         handleVerificationSuccess,
         handleVerificationFailure
       );
       
-      console.log("Verification request created:", verificationRequest);
       setQrCodeUrl(verificationRequest.requestUrl);
       setSessionId(verificationRequest.sessionId);
       
@@ -271,20 +271,26 @@ const VerifyPage = () => {
   ];
 
   return (
-    <Container maxW="container.xl" pt={16}>
-      <VStack spacing={10} align="center" justify="center" minH="80vh">
+    <Container maxW="container.xl" px={containerPadding} pt={{ base: 8, md: 16 }}>
+      <VStack spacing={{ base: 6, md: 10 }} align="center" justify="center" minH={{ base: "70vh", md: "80vh" }}>
         <BlurIn>
-          <Heading as="h1" size="2xl" textAlign="center" mb={4}>
+          <Heading as="h1" size={headingSize} textAlign="center" mb={{ base: 2, md: 4 }}>
             Verify Your Identity
           </Heading>
-          <Text fontSize="xl" textAlign="center" color="gray.400" mb={12}>
+          <Text fontSize={{ base: "lg", md: "xl" }} textAlign="center" color="gray.400" mb={{ base: 8, md: 12 }}>
             Connect your wallet and verify your Twitter account to access Truze
           </Text>
         </BlurIn>
         
         <FadeIn>
-          <Box w="full" maxW="5xl">
-            <Stepper size="lg" index={currentStep - 1} colorScheme="cyan">
+          <Box w="full" maxW={{ base: "100%", md: "5xl" }} px={{ base: 2, md: 0 }}>
+            <Stepper 
+              size={stepperSize} 
+              index={currentStep - 1} 
+              colorScheme="cyan" 
+              orientation={stepperOrientation}
+              gap={{ base: 2, md: 4 }}
+            >
               {steps.map((step, index) => (
                 <Step key={index}>
                   <StepIndicator>
@@ -295,8 +301,8 @@ const VerifyPage = () => {
                     />
                   </StepIndicator>
                   <Box flexShrink="0">
-                    <StepTitle>{step.title}</StepTitle>
-                    <StepDescription>{step.description}</StepDescription>
+                    <StepTitle fontSize={{ base: "sm", md: "md" }}>{step.title}</StepTitle>
+                    <StepDescription fontSize={{ base: "xs", md: "sm" }}>{step.description}</StepDescription>
                   </Box>
                   <StepSeparator />
                 </Step>
@@ -308,18 +314,18 @@ const VerifyPage = () => {
         <ScaleIn>
           <Box
             bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-            p={10}
+            p={{ base: 6, md: 10 }}
             borderRadius="xl"
             boxShadow="xl"
             w="full"
-            maxW="lg"
+            maxW={contentMaxWidth}
             textAlign="center"
           >
-            <Center mb={8}>
+            <Center mb={{ base: 6, md: 8 }}>
               <Icon
                 as={currentStep === 1 ? FiUser : currentStep === 2 ? FiLock : FiCheck}
-                w={20}
-                h={20}
+                w={{ base: 16, md: 20 }}
+                h={{ base: 16, md: 20 }}
                 color="cyan.400"
                 p={4}
                 bg={colorMode === 'dark' ? 'gray.700' : 'gray.100'}
@@ -327,7 +333,7 @@ const VerifyPage = () => {
               />
             </Center>
             
-            <Heading as="h2" size="lg" mb={4}>
+            <Heading as="h2" size={{ base: "md", md: "lg" }} mb={{ base: 3, md: 4 }}>
               {currentStep === 1
                 ? 'Connect Your Wallet'
                 : currentStep === 2
@@ -335,7 +341,7 @@ const VerifyPage = () => {
                 : 'Verification Complete'}
             </Heading>
             
-            <Text color="gray.500" mb={8}>
+            <Text color="gray.500" mb={{ base: 6, md: 8 }} fontSize={{ base: "sm", md: "md" }}>
               {currentStep === 1
                 ? 'Connect your digital wallet to begin the verification process.'
                 : currentStep === 2
@@ -343,12 +349,12 @@ const VerifyPage = () => {
                 : 'Your Twitter account has been verified. You now have access to the Truze platform.'}
             </Text>
             
-            <Divider my={8} />
+            <Divider my={{ base: 6, md: 8 }} />
             
             {currentStep === 1 && (
               <Button
                 colorScheme="cyan"
-                size="lg"
+                size={{ base: "md", md: "lg" }}
                 w="full"
                 onClick={connectWallet}
                 isLoading={isVerifying}
@@ -361,7 +367,7 @@ const VerifyPage = () => {
             {currentStep === 2 && (
               <Button
                 colorScheme="cyan"
-                size="lg"
+                size={{ base: "md", md: "lg" }}
                 w="full"
                 onClick={startReclaimVerification}
                 isLoading={isVerifying}
@@ -373,9 +379,9 @@ const VerifyPage = () => {
             )}
             
             {currentStep === 3 && (
-              <VStack>
-                <Icon as={FiCheck} w={10} h={10} color="green.500" />
-                <Text color="green.500" fontWeight="bold">
+              <VStack spacing={3}>
+                <Icon as={FiCheck} w={{ base: 8, md: 10 }} h={{ base: 8, md: 10 }} color="green.500" />
+                <Text color="green.500" fontWeight="bold" fontSize={{ base: "sm", md: "md" }}>
                   Verification successful! Redirecting...
                 </Text>
               </VStack>
@@ -385,40 +391,45 @@ const VerifyPage = () => {
       </VStack>
       
       {/* QR Code Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} isCentered size="md">
+      <Modal 
+        isOpen={isOpen} 
+        onClose={onClose} 
+        isCentered 
+        size={{ base: "sm", md: "md" }}
+      >
         <ModalOverlay backdropFilter="blur(5px)" />
-        <ModalContent>
-          <ModalHeader>Twitter Verification</ModalHeader>
+        <ModalContent mx={4}>
+          <ModalHeader fontSize={{ base: "lg", md: "xl" }}>Twitter Verification</ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={6}>
             <VStack spacing={4}>
-              <Text textAlign="center">
+              <Text textAlign="center" fontSize={{ base: "sm", md: "md" }}>
                 Scan this QR code with the Reclaim mobile app to verify your Twitter account
               </Text>
               
               <Box p={4} bg="white" borderRadius="md" shadow="md">
                 {qrCodeUrl ? (
-                  <QRCode value={qrCodeUrl} size={240} />
+                  <QRCode value={qrCodeUrl} size={qrCodeSize} />
                 ) : (
-                  <Center h={240} w={240}>
+                  <Center h={qrCodeSize} w={qrCodeSize}>
                     <Spinner size="xl" color="cyan.500" />
                   </Center>
                 )}
               </Box>
               
               <Box bg="gray.100" p={4} borderRadius="md" w="full">
-                <Text fontSize="sm" fontWeight="bold" mb={2} color="gray.800">
+                <Text fontSize={{ base: "xs", md: "sm" }} fontWeight="bold" mb={2} color="gray.800">
                   Instructions:
                 </Text>
                 <VStack spacing={2} align="start">
-                  <Text fontSize="sm" color="gray.700">1. Download the Reclaim mobile app if you haven't already</Text>
-                  <Text fontSize="sm" color="gray.700">2. Scan the QR code with the app</Text>
-                  <Text fontSize="sm" color="gray.700">3. Log in to your Twitter account</Text>
-                  <Text fontSize="sm" color="gray.700">4. Approve the verification request</Text>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.700">1. Download the Reclaim mobile app if you haven't already</Text>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.700">2. Scan the QR code with the app</Text>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.700">3. Log in to your Twitter account</Text>
+                  <Text fontSize={{ base: "xs", md: "sm" }} color="gray.700">4. Approve the verification request</Text>
                 </VStack>
               </Box>
               
-              <Text fontSize="sm" color="gray.500">
+              <Text fontSize={{ base: "xs", md: "sm" }} color="gray.500">
                 Session ID: {sessionId}
               </Text>
             </VStack>
