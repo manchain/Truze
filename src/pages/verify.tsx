@@ -32,7 +32,8 @@ import {
   Center,
   Divider,
   Spinner,
-  useBreakpointValue
+  useBreakpointValue,
+  ResponsiveValue
 } from '@chakra-ui/react';
 import { FiCheck, FiLock, FiUser } from 'react-icons/fi';
 import { BlurIn, FadeIn, ScaleIn } from '../components/magic-ui';
@@ -45,6 +46,8 @@ interface VerificationProof {
   identifier?: string;
   claimData?: Record<string, unknown>;
 }
+
+type StepperOrientation = 'horizontal' | 'vertical';
 
 const VerifyPage = () => {
   const { colorMode } = useColorMode();
@@ -61,7 +64,10 @@ const VerifyPage = () => {
   const { user, login, completeVerification } = useAuthContext();
   
   // Responsive values
-  const stepperOrientation = useBreakpointValue({ base: 'vertical', md: 'horizontal' });
+  const stepperOrientation = useBreakpointValue<StepperOrientation>({ 
+    base: 'vertical', 
+    md: 'horizontal' 
+  });
   const containerPadding = useBreakpointValue({ base: 4, md: 16 });
   const headingSize = useBreakpointValue({ base: 'xl', md: '2xl' });
   const contentMaxWidth = useBreakpointValue({ base: '100%', md: 'lg' });
@@ -288,7 +294,7 @@ const VerifyPage = () => {
               size={stepperSize} 
               index={currentStep - 1} 
               colorScheme="cyan" 
-              orientation={stepperOrientation}
+              orientation={stepperOrientation || 'vertical'}
               gap={{ base: 2, md: 4 }}
             >
               {steps.map((step, index) => (
