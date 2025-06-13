@@ -365,6 +365,7 @@ const VerifyPage = () => {
                 onClick={connectWallet}
                 isLoading={isVerifying}
                 loadingText="Connecting..."
+                mb={{ base: 8, md: 10 }}
               >
                 Connect Wallet
               </Button>
@@ -379,6 +380,7 @@ const VerifyPage = () => {
                 isLoading={isVerifying}
                 loadingText="Processing..."
                 leftIcon={<FiLock />}
+                mt={{ base: 8, md: 10 }}
               >
                 Verify Twitter Account
               </Button>

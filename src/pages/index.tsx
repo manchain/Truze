@@ -45,6 +45,30 @@ const samplePosts = [
     likes: 59,
     comments: 7,
     status: "Disputed" as const
+  },
+  {
+    id: 4,
+    author: "Elon Musk",
+    avatar: "/avatars/elon.png",
+    timestamp: "Apr 13, 2025, 02:45 PM",
+    title: "New Tech Regulation Framework Proposed by Coalition of Nations",
+    content: "A multinational coalition has proposed comprehensive legislation for regulating artificial intelligence and data privacy across borders",
+    tags: ["Climate", "International", "Policy"],
+    likes: 59,
+    comments: 7,
+    status: "Verified" as const
+  },
+  {
+    id: 5,
+    author: "jhony dapp",
+    avatar: "/avatars/jhony.png",
+    timestamp: "Apr 13, 2025, 02:45 PM",
+    title: "New Tech Regulation Framework Proposed by Coalition of Nations",
+    content: "A multinational coalition has proposed comprehensive legislation for regulating artificial intelligence and data privacy across borders",
+    tags: ["Climate", "International", "Policy"],
+    likes: 89,
+    comments: 45,
+    status: "Pending" as const
   }
 ];
 
