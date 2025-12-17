@@ -1,8 +1,7 @@
 import React, { ReactNode } from 'react';
 import { PrivyProvider as PrivyClientProvider } from '@privy-io/react-auth';
 
-// Replace with your actual Privy App ID
-const PRIVY_APP_ID = 'cmae9okvv006pla0mfcnnv9al';
+const PRIVY_APP_ID = process.env.NEXT_PUBLIC_PRIVY_APP_ID || 'cmae9okvv006pla0mfcnnv9al';
 
 const baseSepolia = {
   id: 84532,
@@ -47,7 +46,6 @@ export default function PrivyProvider({ children }: PrivyProviderProps) {
         },
         defaultChain: baseSepolia,
         supportedChains: [baseSepolia],
-        walletConnectCloudProjectId: 'your-wc-project-id'
       }}
     >
       {children}

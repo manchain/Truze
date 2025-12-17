@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Box, HStack, VStack, Text, Avatar, Badge, IconButton, Button, useColorMode, Icon, Flex } from '@chakra-ui/react';
+import { Box, HStack, VStack, Text, Avatar, Badge, IconButton, Button, useColorMode, Icon, Flex, useToast } from '@chakra-ui/react';
 import { FiThumbsUp, FiMessageSquare, FiShare2, FiLock, FiCheck, FiAlertTriangle, FiArrowUp, FiArrowDown } from 'react-icons/fi';
 import VoteButton from './VoteButton';
 import { VOTING_CONTRACT_ADDRESS } from '../config/contracts';
@@ -35,6 +35,60 @@ const Post: React.FC<PostProps> = ({
   const { colorMode } = useColorMode();
   const [showVerification, setShowVerification] = useState(false);
   const [hasVoted, setHasVoted] = useState(false);
+  const [isMinting, setIsMinting] = useState(false);
+  const toast = useToast();
+  const [likeCount, setLikeCount] = useState(likes);
+  const [isLiking, setIsLiking] = useState(false);
+
+  const handleLike = async () => {
+    if (isLiking) return;
+    const newCount = likeCount + 1;
+    setLikeCount(newCount);
+    setIsLiking(true);
+
+    try {
+      await fetch('/api/like', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id, likes: newCount }),
+      });
+    } catch (error) {
+      console.error('Failed to update likes', error);
+    } finally {
+      setIsLiking(false);
+    }
+  };
+
+  const handleShare = async () => {
+    const shareData = {
+      title: title,
+      text: content,
+      url: window.location.href,
+    };
+
+    if (navigator.share) {
+      try {
+        await navigator.share(shareData);
+      } catch (err) {
+        // console.log('Share canceled');
+      }
+    } else {
+      try {
+        await navigator.clipboard.writeText(`${title}\n${content}`);
+        toast({
+          title: "Copied to clipboard",
+          status: "success",
+          duration: 2000,
+        });
+      } catch (err) {
+        toast({
+          title: "Failed to copy",
+          status: "error",
+          duration: 2000,
+        });
+      }
+    }
+  };
 
   const isDark = colorMode === 'dark';
 
@@ -49,12 +103,13 @@ const Post: React.FC<PostProps> = ({
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       const contract = new ethers.Contract(VOTING_CONTRACT_ADDRESS, ['function hasUserVoted(uint256,address) view returns (bool,bool)'], signer);
-      
+
       const address = await signer.getAddress();
       const [voted] = await contract.hasUserVoted(id, address);
       setHasVoted(voted);
     } catch (error) {
-      console.error('Error checking initial vote status:', error);
+      // console.error('Error checking initial vote status:', error);
+      // Suppress error for now as contract might not be deployed locally or accessible
     }
   };
 
@@ -62,13 +117,39 @@ const Post: React.FC<PostProps> = ({
     setHasVoted(true);
   };
 
+  const handleMint = async () => {
+    setIsMinting(true);
+    try {
+      // Simulate minting delay
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      toast({
+        title: "Token Minted!",
+        description: "You have successfully minted your Sepolia token for this article.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } catch (error) {
+      toast({
+        title: "Minting Failed",
+        description: "Could not mint token.",
+        status: "error",
+        duration: 3000,
+        isClosable: true,
+      });
+    } finally {
+      setIsMinting(false);
+    }
+  };
+
   const getStatusBadge = () => {
     switch (status) {
       case 'Verified':
         return (
-          <Badge 
-            display="flex" 
-            alignItems="center" 
+          <Badge
+            display="flex"
+            alignItems="center"
             gap={1}
             bg={isDark ? "green.500" : "green.500"}
             color="white"
@@ -83,9 +164,9 @@ const Post: React.FC<PostProps> = ({
         );
       case 'Pending':
         return (
-          <Badge 
-            display="flex" 
-            alignItems="center" 
+          <Badge
+            display="flex"
+            alignItems="center"
             gap={1}
             bg={isDark ? "yellow.500" : "yellow.500"}
             color="white"
@@ -99,9 +180,9 @@ const Post: React.FC<PostProps> = ({
         );
       case 'Disputed':
         return (
-          <Badge 
-            display="flex" 
-            alignItems="center" 
+          <Badge
+            display="flex"
+            alignItems="center"
             gap={1}
             bg={isDark ? "red.500" : "red.500"}
             color="white"
@@ -118,39 +199,39 @@ const Post: React.FC<PostProps> = ({
   };
 
   return (
-    <Box 
-      bg={isDark ? "gray.800" : "white"}
-      p={4} 
-      borderRadius="xl" 
+    <Box
+      bg="brand.deepSpace"
+      p={4}
+      borderRadius="xl"
       mb={3}
       width="full"
       maxW="container.sm"
-      boxShadow={isDark ? "none" : "sm"}
+      boxShadow="lg"
       border="1px solid"
-      borderColor={isDark ? "gray.700" : "gray.200"}
+      borderColor={isDark ? "gray.800" : "gray.200"}
     >
       <HStack spacing={3} mb={2}>
         <Avatar size="sm" name={author} src={avatar} />
         <VStack align="start" spacing={0} flex={1}>
           <HStack spacing={2}>
-            <Text color={isDark ? "white" : "gray.800"} fontWeight="semibold" fontSize="sm">{author}</Text>
+            <Text color="brand.lavenderMist" fontWeight="semibold" fontSize="sm">{author}</Text>
             {getStatusBadge()}
           </HStack>
-          <Text fontSize="xs" color={isDark ? "gray.400" : "gray.500"}>{timestamp}</Text>
+          <Text fontSize="xs" color="gray.500">{timestamp}</Text>
         </VStack>
       </HStack>
 
       <VStack align="start" spacing={2} mb={3}>
-        <Text 
-          color={isDark ? "white" : "gray.800"}
-          fontSize="lg" 
+        <Text
+          color="brand.lavenderMist"
+          fontSize="lg"
           fontWeight="semibold"
           lineHeight="1.2"
         >
           {title}
         </Text>
-        <Text 
-          color={isDark ? "gray.300" : "gray.600"}
+        <Text
+          color="gray.400"
           fontSize="sm"
           lineHeight="1.5"
         >
@@ -160,13 +241,13 @@ const Post: React.FC<PostProps> = ({
 
       <HStack spacing={2} mb={3} flexWrap="wrap">
         {tags.map((tag) => (
-          <Badge 
-            key={tag} 
+          <Badge
+            key={tag}
             px={3}
             py={1}
             borderRadius="full"
-            bg={isDark ? "gray.700" : "gray.100"}
-            color={isDark ? "gray.300" : "gray.600"}
+            bg="rgba(88, 101, 242, 0.2)" // transparent Blurple
+            color="brand.blurple"
             fontSize="xs"
           >
             {tag}
@@ -177,28 +258,28 @@ const Post: React.FC<PostProps> = ({
       {showVerification && (
         <Box mb={3}>
           <HStack spacing={2} mb={2}>
-            <Icon as={FiLock} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
-            <Text color={isDark ? "gray.300" : "gray.600"} fontSize="sm">
+            <Icon as={FiLock} color="gray.500" boxSize={4} />
+            <Text color="gray.400" fontSize="sm">
               Content Verification
             </Text>
           </HStack>
           <Box
-            bg={isDark ? "gray.900" : "gray.50"}
+            bg="rgba(13, 13, 21, 0.5)"
             p={2}
             borderRadius="md"
             mb={2}
             border="1px solid"
-            borderColor={isDark ? "gray.700" : "gray.200"}
+            borderColor="gray.800"
           >
-            <Text 
-              color={isDark ? "gray.400" : "gray.500"}
-              fontSize="xs" 
+            <Text
+              color="gray.500"
+              fontSize="xs"
               fontFamily="mono"
             >
               0x3a7f44hgf3h8q2i......
             </Text>
           </Box>
-          <Text color={isDark ? "gray.400" : "gray.500"} fontSize="xs">
+          <Text color="gray.500" fontSize="xs">
             This content has been cryptographically signed by the author and verified by {verificationCount} peers
           </Text>
         </Box>
@@ -207,35 +288,42 @@ const Post: React.FC<PostProps> = ({
       <HStack spacing={4} mb={3} justify="space-between">
         <HStack spacing={4}>
           <HStack spacing={1}>
-            <Icon as={FiThumbsUp} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
-            <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{likes}</Text>
+            <IconButton
+              aria-label="Like"
+              icon={<FiThumbsUp />}
+              variant="ghost"
+              size="sm"
+              color={likeCount >= 1 ? "brand.acidGreen" : "gray.500"} // Acid Green for success/active
+              _hover={{ color: "brand.acidGreen", bg: 'transparent' }}
+              onClick={handleLike}
+              isLoading={isLiking}
+            />
+            <Text color={likeCount >= 1 ? "brand.acidGreen" : "gray.500"} fontSize="sm">{likeCount}</Text>
           </HStack>
-          <HStack spacing={1}>
-            <Icon as={FiMessageSquare} color={isDark ? "gray.400" : "gray.500"} boxSize={4} />
-            <Text color={isDark ? "gray.400" : "gray.500"} fontSize="sm">{comments}</Text>
-          </HStack>
+
           <Button
             variant="ghost"
             size="sm"
-            color={isDark ? "gray.400" : "gray.500"}
+            color="gray.500"
             height="auto"
             minW="auto"
             p={0}
-            _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
-            onClick={() => {}}
+            leftIcon={<Icon as={FiShare2} />}
+            _hover={{ bg: 'transparent', color: "brand.lavenderMist" }}
+            onClick={handleShare}
           >
             Share
           </Button>
         </HStack>
-        
+
         <Button
           variant="ghost"
           size="sm"
-          color={isDark ? "gray.400" : "gray.500"}
+          color="gray.500"
           height="auto"
           minW="auto"
           p={0}
-          _hover={{ bg: 'transparent', color: isDark ? "gray.300" : "gray.700" }}
+          _hover={{ bg: 'transparent', color: "brand.lavenderMist" }}
           onClick={() => setShowVerification(!showVerification)}
         >
           {showVerification ? 'Hide' : 'Verify'}

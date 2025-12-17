@@ -1,9 +1,11 @@
-import { Box, Container, Flex, HStack, IconButton, Button, useColorMode, useDisclosure, Image } from '@chakra-ui/react';
+import { Box, Container, Flex, HStack, VStack, Text, Button, Icon, IconButton, useColorMode, useDisclosure, Image } from '@chakra-ui/react';
 import { FiSun, FiMoon, FiSearch, FiMenu, FiHome, FiCheck, FiPieChart, FiUser } from 'react-icons/fi';
 import Post from '../components/Post';
 import { useRouter } from 'next/router';
+import { useEffect } from 'react';
 import { BlurIn, SlideIn, FadeIn, ScaleIn } from '../components/magic-ui';
 import NetworkStatusDrawer from '../components/NetworkStatusDrawer';
+import { useAuthContext } from './_app';
 
 const verifiedPosts = [
   {
@@ -38,22 +40,39 @@ export default function Verified() {
   const { colorMode, toggleColorMode } = useColorMode();
   const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { user, loading, logout } = useAuthContext();
+
+  // Redirect to verification page if user is not verified
+  useEffect(() => {
+    if (!loading && !user) {
+      router.push('/verify');
+    }
+  }, [user, loading, router]);
+
+
+  const handleLogout = () => {
+    logout();
+    router.push('/verify');
+  };
+
+  if (loading || !user) return null;
 
   return (
-    <Box minH="100vh" bg={colorMode === 'dark' ? 'gray.900' : 'gray.50'}>
+    <Box minH="100vh" bg="brand.deepSpace">
       {/* Header */}
       <BlurIn>
         <Flex
           as="header"
           position="fixed"
           w="100%"
-          bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+          bg="rgba(13, 13, 21, 0.6)"
+          backdropFilter="blur(20px)"
+          borderBottom="1px solid rgba(255, 255, 255, 0.05)"
           px={3}
-          py={1}
+          py={3}
           alignItems="center"
           justifyContent="space-between"
-          zIndex={10}
-          boxShadow="sm"
+          zIndex={100}
         >
           <ScaleIn>
             <Box>
@@ -66,7 +85,8 @@ export default function Verified() {
                 aria-label="Toggle color mode"
                 icon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
                 variant="ghost"
-                color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                color="white"
+                _hover={{ bg: 'whiteAlpha.200' }}
                 onClick={toggleColorMode}
               />
             </ScaleIn>
@@ -75,7 +95,8 @@ export default function Verified() {
                 aria-label="Search"
                 icon={<FiSearch />}
                 variant="ghost"
-                color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                color="white"
+                _hover={{ bg: 'whiteAlpha.200' }}
               />
             </ScaleIn>
             <ScaleIn>
@@ -83,7 +104,8 @@ export default function Verified() {
                 aria-label="Menu"
                 icon={<FiMenu />}
                 variant="ghost"
-                color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                color="white"
+                _hover={{ bg: 'whiteAlpha.200' }}
                 onClick={onOpen}
               />
             </ScaleIn>
@@ -93,15 +115,15 @@ export default function Verified() {
 
       {/* Navigation Tabs */}
       <SlideIn direction="down">
-        <Box pt="56px" px={3} pb={3} bg={colorMode === 'dark' ? 'gray.800' : 'gray.900'}>
+        <Box pt="100px" px={3} pb={3} bg="brand.deepSpace">
           <Flex align="center" justify="space-between">
-            <HStack spacing={0} bg={colorMode === 'dark' ? 'gray.900' : 'gray.100'} borderRadius="md" p={1} boxShadow="sm">
-              <Button 
+            <HStack spacing={0} bg="rgba(255, 255, 255, 0.05)" borderRadius="md" p={1} boxShadow="inner">
+              <Button
                 variant="ghost"
-                color={colorMode === 'dark' ? 'white' : 'gray.800'}
+                color="gray.400"
                 bg="transparent"
-                _active={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
-                _hover={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
+                _active={{ bg: 'brand.blurple', color: 'white' }}
+                _hover={{ bg: 'whiteAlpha.100' }}
                 size="sm"
                 borderRadius="md"
                 fontWeight="normal"
@@ -111,12 +133,12 @@ export default function Verified() {
               >
                 Feed
               </Button>
-              <Button 
+              <Button
                 variant="ghost"
-                color={colorMode === 'dark' ? 'white' : 'gray.800'}
-                bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-                _active={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
-                _hover={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
+                color="brand.lavenderMist"
+                bg="transparent"
+                _active={{ bg: 'brand.blurple', color: 'white' }}
+                _hover={{ bg: 'whiteAlpha.100' }}
                 size="sm"
                 borderRadius="md"
                 fontWeight="normal"
@@ -126,8 +148,19 @@ export default function Verified() {
                 Verified
               </Button>
             </HStack>
-            <Button colorScheme="cyan" size="sm" borderRadius="xl" fontWeight="bold" ml={3} px={5} boxShadow="md">
-              Connect
+            <Button
+              bgGradient="linear(to-r, brand.synthwaveStart, brand.synthwaveEnd)"
+              color="white"
+              size="sm"
+              borderRadius="xl"
+              fontWeight="bold"
+              ml={3}
+              px={5}
+              boxShadow="lg"
+              _hover={{ opacity: 0.9 }}
+              onClick={handleLogout}
+            >
+              Disconnect
             </Button>
           </Flex>
         </Box>
@@ -142,76 +175,67 @@ export default function Verified() {
         ))}
       </Container>
 
+
       {/* Bottom Navigation */}
       <SlideIn direction="up">
         <Flex
           position="fixed"
-          bottom={2}
+          bottom={4}
           left="50%"
           transform="translateX(-50%)"
           w="95%"
           maxW="container.sm"
-          bg={colorMode === 'dark' ? 'teal.600' : 'teal.500'}
+          bg="brand.blurple"
           py={2}
-          px={4}
+          px={6}
           justifyContent="space-between"
-          borderRadius="full"
-          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+          borderRadius="2xl"
+          boxShadow="2xl"
           zIndex={10}
         >
           <ScaleIn>
-            <IconButton
-              aria-label="Home"
-              icon={<Box as={FiHome} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
-              onClick={() => router.push('/')}
-            />
+            <VStack spacing={1} as="button" onClick={() => router.push('/')} color="gray.300" _hover={{ color: 'white' }} _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiHome} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Home</Text>
+            </VStack>
           </ScaleIn>
+
           <ScaleIn>
-            <IconButton
-              aria-label="Verified"
-              icon={<Box as={FiCheck} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
-            />
+            <VStack spacing={1} as="button" onClick={() => router.push('/verified')} color="white" _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiCheck} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Verified</Text>
+            </VStack>
           </ScaleIn>
+
           <ScaleIn>
-            <IconButton
-              aria-label="New Post"
-              icon={<Box fontSize="32px" fontWeight="bold">+</Box>}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
+            <VStack
+              spacing={0}
+              as="button"
               onClick={() => router.push('/upload')}
-            />
-          </ScaleIn>
-          <ScaleIn>
-            <IconButton
-              aria-label="Analytics"
-              icon={<Box as={FiPieChart} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
+              color="brand.acidGreen"
+              bg="rgba(0,0,0,0.2)"
+              p={2}
+              mt={-8}
               borderRadius="full"
-              onClick={() => router.push('/stats')}
-            />
+              boxShadow="lg"
+              _active={{ transform: 'scale(0.95)' }}
+            >
+              <Box fontSize="32px" fontWeight="bold" lineHeight="1" mt={-1}>+</Box>
+            </VStack>
           </ScaleIn>
+
           <ScaleIn>
-            <IconButton
-              aria-label="Profile"
-              icon={<Box as={FiUser} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
-              onClick={() => router.push('/profile')}
-            />
+            <VStack spacing={1} as="button" onClick={() => router.push('/stats')} color="gray.300" _hover={{ color: 'white' }} _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiPieChart} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Stats</Text>
+            </VStack>
+          </ScaleIn>
+
+          <ScaleIn>
+            <VStack spacing={1} as="button" onClick={() => router.push('/profile')} color="gray.300" _hover={{ color: 'white' }} _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiUser} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Profile</Text>
+            </VStack>
           </ScaleIn>
         </Flex>
       </SlideIn>
@@ -220,4 +244,4 @@ export default function Verified() {
       <NetworkStatusDrawer isOpen={isOpen} onClose={onClose} />
     </Box>
   );
-} 
+}

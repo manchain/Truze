@@ -15,9 +15,9 @@ export const AuthContext = createContext<{
 }>({
   user: null,
   loading: true,
-  login: () => {},
-  logout: () => {},
-  completeVerification: () => {},
+  login: () => { },
+  logout: () => { },
+  completeVerification: () => { },
 });
 
 // Custom hook to use auth context
@@ -28,10 +28,21 @@ const theme = extendTheme({
     initialColorMode: 'dark',
     useSystemColorMode: false,
   },
+  colors: {
+    brand: {
+      deepSpace: '#0D0D15',
+      blurple: '#5865F2',
+      acidGreen: '#CCFF00',
+      synthwaveStart: '#7B2CBF',
+      synthwaveEnd: '#FF00FF', // Assumed pink end for gradient
+      lavenderMist: '#E0E0FF',
+    },
+  },
   styles: {
     global: {
       body: {
-        bg: 'gray.900',
+        bg: '#0D0D15', // brand.deepSpace
+        color: '#E0E0FF', // brand.lavenderMist
       },
     },
   },
@@ -41,7 +52,7 @@ const theme = extendTheme({
 function AuthWrapper({ Component, pageProps }: AppProps) {
   const auth = useAuth();
   const { user: privyUser, authenticated, ready } = usePrivy();
-  
+
   // Initialize Reclaim Protocol on app load
   useEffect(() => {
     ReclaimProtocolService.initialize();
@@ -52,34 +63,34 @@ function AuthWrapper({ Component, pageProps }: AppProps) {
     async function syncWalletAddress() {
       try {
         console.log("Checking Privy status:", { ready, authenticated, hasUser: !!privyUser });
-        
+
         if (ready && authenticated && privyUser) {
           console.log("Privy auth status:", { ready, authenticated });
           console.log("Privy user:", privyUser);
-          
+
           // Get wallet address from user's linked wallets
           let walletAddress = null;
-          
+
           // Check if user has linked wallets
           if (privyUser.linkedAccounts) {
             console.log("Linked accounts:", privyUser.linkedAccounts);
             // Find the first wallet account
-            const walletAccount = privyUser.linkedAccounts.find(account => 
+            const walletAccount = privyUser.linkedAccounts.find(account =>
               account.type === 'wallet'
             );
-            
+
             if (walletAccount && 'address' in walletAccount) {
               walletAddress = walletAccount.address;
               console.log("Got wallet address from linked accounts:", walletAddress);
             }
           }
-          
+
           // Fallback to wallet property if available
           if (!walletAddress && privyUser.wallet?.address) {
             walletAddress = privyUser.wallet.address;
             console.log("Got wallet address from wallet property:", walletAddress);
           }
-          
+
           if (walletAddress && (!auth.user || auth.user.address !== walletAddress)) {
             console.log("Logging in with wallet address:", walletAddress);
             // Login with the wallet address from Privy
@@ -92,7 +103,7 @@ function AuthWrapper({ Component, pageProps }: AppProps) {
         console.error("Error synchronizing Privy wallet:", error);
       }
     }
-    
+
     syncWalletAddress();
   }, [privyUser, authenticated, ready, auth]);
 

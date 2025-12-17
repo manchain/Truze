@@ -31,7 +31,7 @@ export const useAuth = () => {
       const isVerified = localStorage.getItem('userVerified') === 'true';
       const storedAddress = localStorage.getItem('walletAddress');
       const storedProof = localStorage.getItem('userProof');
-      
+
       if (storedAddress) {
         setUser({
           address: storedAddress,
@@ -64,17 +64,17 @@ export const useAuth = () => {
     const timestamp = Date.now();
     localStorage.setItem('userVerified', 'true');
     localStorage.setItem('verificationTimestamp', timestamp.toString());
-    
+
     if (proof) {
       localStorage.setItem('userProof', JSON.stringify(proof));
     }
-    
+
     setUser(prev => {
       if (!prev) {
         console.error('[Auth] Attempted to verify non-existent user');
         return null;
       }
-      
+
       console.log(`[Auth] User ${prev.address} verified successfully`);
       return {
         ...prev,
@@ -107,7 +107,7 @@ export const useAuth = () => {
 // Reclaim Protocol service implementation
 export class ReclaimProtocolService {
   private static reclaimClient: any = null;
-  
+
   // Initialize Reclaim Protocol client
   static initialize() {
     try {
@@ -118,32 +118,32 @@ export class ReclaimProtocolService {
       throw error;
     }
   }
-  
+
   // Generate verification request with QR code
   static async generateVerificationRequest(walletAddress: string, onSuccess: (proofs: any[]) => void, onFailure: (error: any) => void) {
     try {
       console.log(`Generating verification request for ${walletAddress}`);
-      
+
       // Initialize a new Reclaim request for this verification
       const reclaimRequest = await ReclaimProofRequest.init(
-        RECLAIM_APP_ID, 
+        RECLAIM_APP_ID,
         RECLAIM_APP_SECRET,
         RECLAIM_PROVIDER_ID
       );
-      
+
       // Add context to the request
       reclaimRequest.addContext(
         `Verify Twitter for ${walletAddress}`,
         `Truze verification at ${new Date().toISOString()}`
       );
-      
+
       // Get the request URL for QR code
       const requestUrl = await reclaimRequest.getRequestUrl();
       const statusUrl = reclaimRequest.getStatusUrl();
-      
+
       console.log("Request URL:", requestUrl);
       console.log("Status URL:", statusUrl);
-      
+
       // Start session and set callbacks
       await reclaimRequest.startSession({
         onSuccess: (proof) => {
@@ -157,7 +157,7 @@ export class ReclaimProtocolService {
           onFailure(error);
         }
       });
-      
+
       // Return verification request data
       return {
         sessionId: Math.random().toString(36).substring(2, 15),
@@ -175,7 +175,7 @@ export class ReclaimProtocolService {
 // Protected route helper - redirect to verification page if not verified
 export const requireAuth = (router: any) => {
   const { user, loading } = useAuth();
-  
+
   useEffect(() => {
     if (!loading && !user) {
       // Not authenticated, redirect to verify page
@@ -185,6 +185,6 @@ export const requireAuth = (router: any) => {
       router.push('/verify');
     }
   }, [user, loading, router]);
-  
+
   return { user, loading };
 }; 

@@ -21,6 +21,7 @@
     "@privy-io/react-auth": "^2.13.0",
     "@reclaimprotocol/js-sdk": "^3.0.2",
     "@solana/web3.js": "^1.87.6",
+    "@supabase/supabase-js": "^2.88.0",
     "circomlib": "^2.0.3",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.1",

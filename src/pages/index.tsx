@@ -1,76 +1,26 @@
-import { Box, Container, Flex, HStack, IconButton, Button, useColorMode, useDisclosure, Image } from '@chakra-ui/react';
+import { Box, Container, Flex, HStack, IconButton, Button, useColorMode, useDisclosure, Image, VStack, Icon, Text } from '@chakra-ui/react';
 import { FiSun, FiMoon, FiSearch, FiMenu, FiHome, FiCheck, FiPieChart, FiUser } from 'react-icons/fi';
 import Post from '../components/Post';
 import { useRouter } from 'next/router';
 import { BlurIn, SlideIn, FadeIn, ScaleIn } from '../components/magic-ui';
 import NetworkStatusDrawer from '../components/NetworkStatusDrawer';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAuthContext } from './_app';
 import { usePrivy } from '@privy-io/react-auth';
 
-const samplePosts = [
-  {
-    id: 1,
-    author: "Andrew Tate",
-    avatar: "/avatars/andrew.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "Global Climate Summit Reaches Historic Agreement on Emissions",
-    content: "Representatives from 195 countries have agreed on a landmark deal to reduce carbon emissions by 50% by 2030, setting an ambitious target for climate action",
-    tags: ["Climate", "International", "Policy"],
-    likes: 59,
-    comments: 7,
-    status: "Verified" as const,
-    verificationCount: 53
-  },
-  {
-    id: 2,
-    author: "Chris Hamburger",
-    avatar: "/avatars/chris.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "New Tech Regulation Framework Proposed by Coalition of Nations",
-    content: "A multinational coalition has proposed comprehensive legislation for regulating artificial intelligence and data privacy across borders",
-    tags: ["Climate", "International", "Policy"],
-    likes: 59,
-    comments: 7,
-    status: "Pending" as const
-  },
-  {
-    id: 3,
-    author: "Charli xcx",
-    avatar: "/avatars/charli.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "Healthcare Reform Bill faces challenges in Legislative Session",
-    content: "The Proposed healthcare reform bill is encountering significant opposition as it moves through committee revies before final vote",
-    tags: ["Climate", "International", "Policy"],
-    likes: 59,
-    comments: 7,
-    status: "Disputed" as const
-  },
-  {
-    id: 4,
-    author: "Elon Musk",
-    avatar: "/avatars/elon.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "New Tech Regulation Framework Proposed by Coalition of Nations",
-    content: "A multinational coalition has proposed comprehensive legislation for regulating artificial intelligence and data privacy across borders",
-    tags: ["Climate", "International", "Policy"],
-    likes: 59,
-    comments: 7,
-    status: "Verified" as const
-  },
-  {
-    id: 5,
-    author: "jhony dapp",
-    avatar: "/avatars/jhony.png",
-    timestamp: "Apr 13, 2025, 02:45 PM",
-    title: "New Tech Regulation Framework Proposed by Coalition of Nations",
-    content: "A multinational coalition has proposed comprehensive legislation for regulating artificial intelligence and data privacy across borders",
-    tags: ["Climate", "International", "Policy"],
-    likes: 89,
-    comments: 45,
-    status: "Pending" as const
-  }
-];
+interface PostData {
+  id: number;
+  author: string;
+  avatar: string;
+  timestamp: string;
+  title: string;
+  content: string;
+  tags: string[];
+  likes: number;
+  comments: number;
+  status: 'Verified' | 'Pending' | 'Disputed';
+  verificationCount: number;
+}
 
 export default function Home() {
   const { colorMode, toggleColorMode } = useColorMode();
@@ -78,16 +28,52 @@ export default function Home() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { user, loading, logout } = useAuthContext();
   const { ready, authenticated, logout: privyLogout } = usePrivy();
+  const [posts, setPosts] = useState<PostData[]>([]);
+  const [loadingPosts, setLoadingPosts] = useState(true);
 
   // Redirect to verification page if user is not verified
   useEffect(() => {
-    if (!loading && (!user || !user.isVerified)) {
+    if (!loading && !user) {
       router.push('/verify');
     }
   }, [user, loading, router]);
 
+  // Fetch posts
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const response = await fetch('/api/posts');
+        if (response.ok) {
+          const data = await response.json();
+          // Transform/format dates if necessary, though API now returns formatted string or ISO
+          // API returns Supabase rows, we might need to map fields if they are snake_case
+          const formattedData = data.map((post: any) => ({
+            id: post.id,
+            author: post.author,
+            avatar: post.avatar,
+            timestamp: new Date(post.timestamp).toLocaleString(),
+            title: post.title,
+            content: post.content,
+            tags: post.tags,
+            likes: post.likes,
+            comments: post.comments,
+            status: post.status,
+            verificationCount: post.verification_count || 0
+          }));
+          setPosts(formattedData);
+        }
+      } catch (error) {
+        console.error('Failed to fetch posts:', error);
+      } finally {
+        setLoadingPosts(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   // Render loading state or redirect if not authenticated
-  if (loading || !user || !user.isVerified) {
+  if (loading || !user) {
     return null; // Or a loading spinner
   }
 
@@ -107,13 +93,14 @@ export default function Home() {
           as="header"
           position="fixed"
           w="100%"
-          bg={colorMode === 'dark' ? 'gray.800' : 'white'}
+          bg="rgba(13, 13, 21, 0.6)"
+          backdropFilter="blur(20px)"
+          borderBottom="1px solid rgba(255, 255, 255, 0.05)"
           px={3}
-          py={1}
+          py={3}
           alignItems="center"
           justifyContent="space-between"
-          zIndex={10}
-          boxShadow="sm"
+          zIndex={100}
         >
           <ScaleIn>
             <Box>
@@ -126,7 +113,8 @@ export default function Home() {
                 aria-label="Toggle color mode"
                 icon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
                 variant="ghost"
-                color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                color="white"
+                _hover={{ bg: 'whiteAlpha.200' }}
                 onClick={toggleColorMode}
               />
             </ScaleIn>
@@ -135,7 +123,8 @@ export default function Home() {
                 aria-label="Search"
                 icon={<FiSearch />}
                 variant="ghost"
-                color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                color="white"
+                _hover={{ bg: 'whiteAlpha.200' }}
               />
             </ScaleIn>
             <ScaleIn>
@@ -143,7 +132,8 @@ export default function Home() {
                 aria-label="Menu"
                 icon={<FiMenu />}
                 variant="ghost"
-                color={colorMode === 'dark' ? 'gray.400' : 'gray.600'}
+                color="white"
+                _hover={{ bg: 'whiteAlpha.200' }}
                 onClick={onOpen}
               />
             </ScaleIn>
@@ -153,15 +143,15 @@ export default function Home() {
 
       {/* Navigation Tabs */}
       <SlideIn direction="down">
-        <Box pt="56px" px={3} pb={3} bg={colorMode === 'dark' ? 'gray.800' : 'gray.900'}>
+        <Box pt="100px" px={3} pb={3} bg="brand.deepSpace">
           <Flex align="center" justify="space-between">
-            <HStack spacing={0} bg={colorMode === 'dark' ? 'gray.900' : 'gray.100'} borderRadius="md" p={1} boxShadow="sm">
-              <Button 
+            <HStack spacing={0} bg="rgba(255, 255, 255, 0.05)" borderRadius="md" p={1} boxShadow="inner">
+              <Button
                 variant="ghost"
-                color={colorMode === 'dark' ? 'white' : 'gray.800'}
-                bg={colorMode === 'dark' ? 'gray.800' : 'white'}
-                _active={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
-                _hover={{ bg: colorMode === 'dark' ? 'gray.700' : 'gray.200' }}
+                color="brand.lavenderMist"
+                bg="transparent"
+                _active={{ bg: 'brand.blurple', color: 'white' }}
+                _hover={{ bg: 'whiteAlpha.100' }}
                 size="sm"
                 borderRadius="md"
                 fontWeight="normal"
@@ -170,12 +160,12 @@ export default function Home() {
               >
                 Feed
               </Button>
-              <Button 
+              <Button
                 variant="ghost"
-                color={colorMode === 'dark' ? 'white' : 'gray.800'}
+                color="gray.400"
                 bg="transparent"
-                _active={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
-                _hover={{ bg: colorMode === 'dark' ? 'gray.800' : 'white' }}
+                _active={{ bg: 'brand.blurple', color: 'white' }}
+                _hover={{ bg: 'whiteAlpha.100' }}
                 size="sm"
                 borderRadius="md"
                 fontWeight="normal"
@@ -185,14 +175,16 @@ export default function Home() {
                 Verified
               </Button>
             </HStack>
-            <Button 
-              colorScheme="cyan" 
-              size="sm" 
-              borderRadius="xl" 
-              fontWeight="bold" 
-              ml={3} 
-              px={5} 
-              boxShadow="md"
+            <Button
+              bgGradient="linear(to-r, brand.synthwaveStart, brand.synthwaveEnd)"
+              color="white"
+              size="sm"
+              borderRadius="xl"
+              fontWeight="bold"
+              ml={3}
+              px={5}
+              boxShadow="lg"
+              _hover={{ opacity: 0.9 }}
               onClick={handleLogout}
             >
               Disconnect
@@ -203,7 +195,7 @@ export default function Home() {
 
       {/* Main Content */}
       <Container maxW="container.sm" pt={2} pb={12}>
-        {samplePosts.map((post, index) => (
+        {posts.map((post, index) => (
           <FadeIn key={index}>
             <Post {...post} />
           </FadeIn>
@@ -214,72 +206,62 @@ export default function Home() {
       <SlideIn direction="up">
         <Flex
           position="fixed"
-          bottom={2}
+          bottom={4}
           left="50%"
           transform="translateX(-50%)"
           w="95%"
           maxW="container.sm"
-          bg={colorMode === 'dark' ? 'teal.600' : 'teal.500'}
+          bg="brand.blurple"
           py={2}
-          px={4}
+          px={6}
           justifyContent="space-between"
-          borderRadius="full"
-          boxShadow="0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)"
+          borderRadius="2xl"
+          boxShadow="2xl"
           zIndex={10}
         >
           <ScaleIn>
-            <IconButton
-              aria-label="Home"
-              icon={<Box as={FiHome} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
-            />
+            <VStack spacing={1} as="button" onClick={() => router.push('/')} color="white" _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiHome} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Home</Text>
+            </VStack>
           </ScaleIn>
+
           <ScaleIn>
-            <IconButton
-              aria-label="Verified"
-              icon={<Box as={FiCheck} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
-              onClick={() => router.push('/verified')}
-            />
+            <VStack spacing={1} as="button" onClick={() => router.push('/verified')} color="gray.300" _hover={{ color: 'white' }} _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiCheck} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Verified</Text>
+            </VStack>
           </ScaleIn>
+
           <ScaleIn>
-            <IconButton
-              aria-label="New Post"
-              icon={<Box fontSize="32px" fontWeight="bold">+</Box>}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
+            <VStack
+              spacing={0}
+              as="button"
               onClick={() => router.push('/upload')}
-            />
-          </ScaleIn>
-          <ScaleIn>
-            <IconButton
-              aria-label="Analytics"
-              icon={<Box as={FiPieChart} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
+              color="brand.acidGreen"
+              bg="rgba(0,0,0,0.2)"
+              p={2}
+              mt={-8}
               borderRadius="full"
-              onClick={() => router.push('/stats')}
-            />
+              boxShadow="lg"
+              _active={{ transform: 'scale(0.95)' }}
+            >
+              <Box fontSize="32px" fontWeight="bold" lineHeight="1" mt={-1}>+</Box>
+            </VStack>
           </ScaleIn>
+
           <ScaleIn>
-            <IconButton
-              aria-label="Profile"
-              icon={<Box as={FiUser} boxSize={6} />}
-              variant="ghost"
-              color="white"
-              _hover={{ bg: colorMode === 'dark' ? 'teal.500' : 'teal.600' }}
-              borderRadius="full"
-              onClick={() => router.push('/profile')}
-            />
+            <VStack spacing={1} as="button" onClick={() => router.push('/stats')} color="gray.300" _hover={{ color: 'white' }} _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiPieChart} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Stats</Text>
+            </VStack>
+          </ScaleIn>
+
+          <ScaleIn>
+            <VStack spacing={1} as="button" onClick={() => router.push('/profile')} color="gray.300" _hover={{ color: 'white' }} _active={{ transform: 'scale(0.95)' }}>
+              <Icon as={FiUser} boxSize={5} />
+              <Text fontSize="10px" fontWeight="medium">Profile</Text>
+            </VStack>
           </ScaleIn>
         </Flex>
       </SlideIn>

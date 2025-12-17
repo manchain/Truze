@@ -12,9 +12,9 @@ interface VoteButtonProps {
   onVoteSuccess: () => void;
 }
 
-const VoteButton: React.FC<VoteButtonProps> = ({ 
-  articleId, 
-  isUpvote, 
+const VoteButton: React.FC<VoteButtonProps> = ({
+  articleId,
+  isUpvote,
   contractAddress,
   hasVoted,
   onVoteSuccess
@@ -73,7 +73,7 @@ const VoteButton: React.FC<VoteButtonProps> = ({
       setIsLoading(true);
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       await provider.send("eth_requestAccounts", []);
-      
+
       const network = await provider.getNetwork();
       if (network.chainId !== 84532) {
         toast({
