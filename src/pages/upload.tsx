@@ -54,7 +54,15 @@ const Upload = () => {
         }),
       });
 
-      const data = await response.json();
+      let data;
+      const responseText = await response.text();
+
+      try {
+        data = JSON.parse(responseText);
+      } catch (e) {
+        console.error("Failed to parse response:", responseText);
+        throw new Error(`Server responded with ${response.status}: ${response.statusText}`);
+      }
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to upload article');

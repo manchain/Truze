@@ -53,7 +53,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 throw error;
             }
 
-            res.status(201).json(data[0]);
+            const createdPost = data && data.length > 0 ? data[0] : newPost;
+            res.status(201).json(createdPost);
         } catch (error) {
             console.error('Error creating post:', error);
             res.status(500).json({ error: 'Failed to save post' });
